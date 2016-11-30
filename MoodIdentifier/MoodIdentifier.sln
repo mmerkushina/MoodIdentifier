@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoodIdentifier.UI", "MoodIdentifier.UI\MoodIdentifier.UI.csproj", "{6497F459-7356-4C17-82B6-78340C9E6E7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoodIdentifier.TweetData", "MoodIdentifier.TweetData\MoodIdentifier.TweetData.csproj", "{9C175BBE-CD88-4F94-8754-3AA0216E38B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoodIdentifier.AnalysisData", "MoodIdentifier.AnalysisData\MoodIdentifier.AnalysisData.csproj", "{468E555A-484B-4E7E-B4D6-A0C58E52E693}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{6497F459-7356-4C17-82B6-78340C9E6E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6497F459-7356-4C17-82B6-78340C9E6E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6497F459-7356-4C17-82B6-78340C9E6E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C175BBE-CD88-4F94-8754-3AA0216E38B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C175BBE-CD88-4F94-8754-3AA0216E38B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C175BBE-CD88-4F94-8754-3AA0216E38B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C175BBE-CD88-4F94-8754-3AA0216E38B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{468E555A-484B-4E7E-B4D6-A0C58E52E693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{468E555A-484B-4E7E-B4D6-A0C58E52E693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{468E555A-484B-4E7E-B4D6-A0C58E52E693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{468E555A-484B-4E7E-B4D6-A0C58E52E693}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
