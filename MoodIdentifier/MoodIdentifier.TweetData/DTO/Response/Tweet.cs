@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoodIdentifier.TweetData.DTO
+namespace MoodIdentifier.TweetData.DTO.Response
 {
-    class Tweet
+    public class Tweet
     {
         [JsonProperty("user")]
         public User User { get; set; }

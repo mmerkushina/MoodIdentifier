@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoodIdentifier.TweetData.DTO
+namespace MoodIdentifier.TweetData.DTO.Response
 {
-    class Entity
+    public class Entity
     {
         [JsonProperty("hashtags")]
-        public Hashtag[] Hashtags { get; set; }
+        public IEnumerable<Hashtag> Hashtags { get; set; }
     }
 }

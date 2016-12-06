@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MoodIdentifier.TweetData.DTO
+namespace MoodIdentifier.TweetData.DTO.Response
 {
-    class User
+    public class User
     {
         [JsonProperty("screen_name")]
         public string ScreenName { get; set; }
