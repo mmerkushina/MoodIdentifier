@@ -9,11 +9,17 @@ namespace MoodIdentifier.AnalysisData
 {
    public class RepositoryAnalysisData { 
     
-        static Client client = new Client("afcc8bcf", "7cceb65d718a77e60f4896cd27bbf912");
-        Sentiment sentiment = client.Sentiment(
-            text: "John is a very good football player!");
-        Language language = client.Language(
-            text: "John is a very good football player!");
+        public string checkAnalysis()
+        {
+            Client client = new Client("YourApplicationID", "YourApplicationKey");
+
+            Sentiment sentiment = client.Sentiment(text: "John is a very good football player!");
+            return (sentiment.Polarity.ToString());
+            //return ()
+        }
+        
+       // Language language = client.Language(
+         //   text: "John is a very good football player!");
         /*
         Console.WriteLine("Sentiment: {0} ({1})", 
                 sentiment.Polarity, sentiment.PolarityConfidence);

@@ -40,7 +40,7 @@ namespace MoodIdentifier.UI
             //    Console.WriteLine(i.Text);
             //}
             MoodIdentifier.AnalysisData.RepositoryAnalysisData repo = new MoodIdentifier.AnalysisData.RepositoryAnalysisData();
-            pero
+            Console.WriteLine("Sentiment: {0}",repo.checkAnalysis());
             InitializeComponent();
         }
     }
