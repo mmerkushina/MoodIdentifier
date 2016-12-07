@@ -20,6 +20,9 @@ using System.Net;
 using System.IO;
 using LinqToTwitter;
 
+
+
+
 namespace MoodIdentifier.UI
 {
     /// <summary>
@@ -29,13 +32,15 @@ namespace MoodIdentifier.UI
     {
         public MainWindow()
         {
-            Repository r = new Repository();
+            //Repository r = new Repository();
             // FOR MASHA TO CHECK
             //r.GetTweets("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6));
             //foreach (var i in r.TweetsCollection)
             //{
             //    Console.WriteLine(i.Text);
             //}
+            MoodIdentifier.AnalysisData.RepositoryAnalysisData repo = new MoodIdentifier.AnalysisData.RepositoryAnalysisData();
+            pero
             InitializeComponent();
         }
     }

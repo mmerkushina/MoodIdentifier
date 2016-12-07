@@ -35,12 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LinqToTwitter.AspNet, Version=3.2.0.30483, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\linqtotwitter.4.1.0\lib\net45\LinqToTwitter.AspNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="LinqToTwitter.net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=957107be965c25d9, processorArchitecture=MSIL">
-      <HintPath>..\packages\linqtotwitter.4.1.0\lib\net45\LinqToTwitter.net.dll</HintPath>
+      <HintPath>..\packages\linqtotwitter.4.0.0\lib\net45\LinqToTwitter.net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -125,6 +121,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MoodIdentifier.AnalysisData\MoodIdentifier.AnalysisData.csproj">
+      <Project>{468e555a-484b-4e7e-b4d6-a0c58e52e693}</Project>
+      <Name>MoodIdentifier.AnalysisData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MoodIdentifier.TweetData\MoodIdentifier.TweetData.csproj">
       <Project>{9c175bbe-cd88-4f94-8754-3aa0216e38b2}</Project>
       <Name>MoodIdentifier.TweetData</Name>
