@@ -39,15 +39,18 @@ namespace MoodIdentifier.UI
             //{
             //    Console.WriteLine(i.Text);
             //}
+
+            ///for Tonya 
+            /*
             MoodIdentifier.AnalysisData.RepositoryAnalysisData repo = new MoodIdentifier.AnalysisData.RepositoryAnalysisData();
-             //Console.WriteLine("Sentiment: {0}",repo.checkAnalysis());
-           string text2 = "I am tired";
+            Console.WriteLine("Sentiment: {0}",repo.checkAnalysis());
+           string text2 = "I am happy";
 
 
             var a = repo.GetAnalysis(text2);
-            Console.WriteLine(a.DocEmotions.Sadness);
-               
-            
+            Console.WriteLine(a.DocEmotions.Joy);
+               */
+           
            
             InitializeComponent();
         }
