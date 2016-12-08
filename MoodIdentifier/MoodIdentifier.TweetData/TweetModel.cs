@@ -9,7 +9,6 @@ namespace MoodIdentifier.TweetData
     public class TweetModel
     {
         public string Text { get; set; }
-        //public List<string> Hashtags { get; set; }
         public int? Favourites { get; set; }
         public int? Retweets { get; set; }
     }
