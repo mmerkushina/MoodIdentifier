@@ -32,6 +32,9 @@ namespace MoodIdentifier.UI
     {
         public MainWindow()
         {
+            InitializeComponent();
+            DatePickerFirst.SelectedDate = DateTime.Now.Date;
+            DatePickerSecond.SelectedDate = DateTime.Now.Date;
             //Repository r = new Repository();
             // FOR MASHA TO CHECK
             //r.GetTweets("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6));
@@ -50,9 +53,24 @@ namespace MoodIdentifier.UI
             var a = repo.GetAnalysis(text2);
             Console.WriteLine(a.DocEmotions.Joy);
                */
-           
-           
-            InitializeComponent();
+        }
+
+        private void Buttion_Start_analyzing_Click(object sender, RoutedEventArgs e)
+        {
+            string _login = TextBox_Login.Text;
+            DateTime? _first_date = DatePickerFirst.SelectedDate;
+            DateTime? _seconddate = DatePickerSecond.SelectedDate;
+            Validation valid = new Validation();
+            if (valid.IsValid(_first_date) && valid.IsValid(_seconddate))
+            {
+                //здесь отсылание данных Маше
+                OutputData outputdatewindow = new OutputData();
+                outputdatewindow.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, введите корректные данных в поле Дата");
+            }
         }
     }
 }
