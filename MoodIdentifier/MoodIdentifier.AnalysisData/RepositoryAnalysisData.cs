@@ -13,7 +13,7 @@ namespace MoodIdentifier.AnalysisData
 {
     public class RepositoryAnalysisData
     {
-        public const string AppId = "375d440c74c17eba6676796f88ef68a2abb7fb14";
+        public const string AppId = "";
 
         public string CheckAnalysis(string text)
         {           
