@@ -23,5 +23,10 @@ namespace MoodIdentifier.UI
         {
             InitializeComponent();
         }
+
+        private void Button_Back_To_MainWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

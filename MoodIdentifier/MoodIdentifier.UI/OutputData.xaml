@@ -11,6 +11,14 @@
     </Window.Background>
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="Button_Back_To_MainWindow" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="105" Grid.Column="1" Grid.Row="1" Height="27" Margin="0,4,0,0" Click="Button_Back_To_MainWindow_Click"/>
     </Grid>
 </Window>

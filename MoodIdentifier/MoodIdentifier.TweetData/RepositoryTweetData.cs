@@ -1,17 +1,13 @@
 ﻿using LinqToTwitter;
-using MoodIdentifier.TweetData.DTO.Response;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MoodIdentifier.TweetData
 {
-    public class Repository
+    public class RepositoryTweetData
     {
         private SingleUserAuthorizer user = new SingleUserAuthorizer
         {
@@ -24,7 +20,7 @@ namespace MoodIdentifier.TweetData
             }
         };
         public List<TweetModel> TweetsCollection { get; set; }
-        public void GetTweets(string screenname, DateTime begin, DateTime end)
+        public List<string> GetTweets(string screenname, DateTime begin, DateTime end)
         {
             var twitterContext = new TwitterContext(user);
 
@@ -42,11 +38,14 @@ namespace MoodIdentifier.TweetData
                              Text = tweet.Text,
                              Favourites = tweet.FavoriteCount,
                              Retweets = tweet.RetweetCount
-                             //Hashtags = from t in tweet.Entities.HashTagEntities
-                             //           select t.Tag
-                             //           .ToList()
                          };
+            
+
             TweetsCollection = tweets.ToList();
+            List<string> TweetText = new List<string>();
+            foreach (var t in TweetsCollection)
+                TweetText.Add(t.Text);
+            return TweetText;
         }
     }
 }

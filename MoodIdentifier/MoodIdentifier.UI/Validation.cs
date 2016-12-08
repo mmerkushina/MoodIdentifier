@@ -12,5 +12,10 @@ namespace MoodIdentifier.UI
         {
             return (date <= DateTime.Now.Date && date != null);
         }
+
+        public bool IsValid(string login)
+        {
+            return (!string.IsNullOrWhiteSpace(login) && !string.IsNullOrEmpty(login));
+        }
     }
 }
