@@ -16,7 +16,7 @@ namespace MoodIdentifier.AnalysisData
         
 
         public const string AppId = "375d440c74c17eba6676796f88ef68a2abb7fb14";
-
+       // public List<string> DecodingTweetData()
         public string CheckAnalysis(string text)
         {
 
