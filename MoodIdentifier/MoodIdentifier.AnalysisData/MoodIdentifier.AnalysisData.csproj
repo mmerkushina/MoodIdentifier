@@ -49,17 +49,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Answer.cs" />
     <Compile Include="DTO\Response\docEmotions.cs" />
     <Compile Include="DTO\Response\Results.cs" />
     <Compile Include="DTO\Response\TweetData\Entity.cs" />
     <Compile Include="DTO\Response\TweetData\Hashtag.cs" />
     <Compile Include="DTO\Response\TweetData\Tweet.cs" />
-    <Compile Include="DTO\Response\TweetData\TweetModel.cs" />
+    <Compile Include="DTO\Response\TweetData\TweetModel123.cs" />
     <Compile Include="DTO\Response\TweetData\User.cs" />
+    <Compile Include="EmotionalsOneDay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryAnalysisData.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MoodIdentifier.TweetData\MoodIdentifier.TweetData.csproj">
+      <Project>{9C175BBE-CD88-4F94-8754-3AA0216E38B2}</Project>
+      <Name>MoodIdentifier.TweetData</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

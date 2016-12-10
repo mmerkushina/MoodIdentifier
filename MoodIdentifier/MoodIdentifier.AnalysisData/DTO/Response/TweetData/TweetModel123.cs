@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoodIdentifier.AnalysisData.DTO.Response.TweetData
 {
-   public class TweetModel
+   public class TweetModel123
     {
         
             public string Text { get; set; }
