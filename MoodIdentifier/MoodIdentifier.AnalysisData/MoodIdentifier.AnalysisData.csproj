@@ -54,6 +54,7 @@
     <Compile Include="DTO\Response\TweetData\Entity.cs" />
     <Compile Include="DTO\Response\TweetData\Hashtag.cs" />
     <Compile Include="DTO\Response\TweetData\Tweet.cs" />
+    <Compile Include="DTO\Response\TweetData\TweetModel.cs" />
     <Compile Include="DTO\Response\TweetData\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryAnalysisData.cs" />
