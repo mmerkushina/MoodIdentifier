@@ -19,6 +19,9 @@ namespace MoodIdentifier.UI
     /// </summary>
     public partial class OutputData : Window
     {
+        public delegate void DelegateForOutputDataClosed();
+        public event DelegateForOutputDataClosed EventOutputDataClosed;
+
         public OutputData()
         {
             InitializeComponent();
@@ -26,6 +29,7 @@ namespace MoodIdentifier.UI
 
         private void Button_Back_To_MainWindow_Click(object sender, RoutedEventArgs e)
         {
+            EventOutputDataClosed?.Invoke();
             this.Close();
         }
     }

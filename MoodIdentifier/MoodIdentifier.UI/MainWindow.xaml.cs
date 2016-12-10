@@ -30,6 +30,19 @@ namespace MoodIdentifier.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        public double mainWindowHeight = 350;
+        public double mainWindowWidth = 525;
+        public double outputdataHeight = 480;
+        public double outputdataWidth = 640;
+     
+        public void ChangePlace()
+        {
+            this.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2 - mainWindowWidth / 2;
+            this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - mainWindowHeight / 2;
+            this.MinHeight = 350;
+            this.MinWidth = 500;
+        }
+
         public MainWindow()
         {
             //Repository r = new Repository();
@@ -50,14 +63,15 @@ namespace MoodIdentifier.UI
             var a = repo.GetAnalysis(text2);
             Console.WriteLine(a.DocEmotions.Joy);
                */
-            RepositoryTweetData rtd = new RepositoryTweetData();
-            RepositoryAnalysisData rad = new RepositoryAnalysisData();
-            foreach (var i in rtd.GetTweets("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6)))
-            {
-                var a = rad.GetAnalysis(i);
-                Console.WriteLine("Anger: {0}, Disqust: {1}, Fear: {2}, Joy: {3}, Sadness: {4}",
-                    a.DocEmotions.Anger, a.DocEmotions.Disgust, a.DocEmotions.Fear, a.DocEmotions.Joy, a.DocEmotions.Sadness);
-            }
+            //RepositoryTweetData rtd = new RepositoryTweetData();
+            //RepositoryAnalysisData rad = new RepositoryAnalysisData();
+            //foreach (var i in rtd.GetTweets("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6)))
+            //{
+            //    var a = rad.GetAnalysis(i);
+            //    Console.WriteLine("Anger: {0}, Disqust: {1}, Fear: {2}, Joy: {3}, Sadness: {4}",
+            //        a.DocEmotions.Anger, a.DocEmotions.Disgust, a.DocEmotions.Fear, a.DocEmotions.Joy, a.DocEmotions.Sadness);
+            //}
+            ChangePlace();
             InitializeComponent();
         }
 
@@ -70,9 +84,21 @@ namespace MoodIdentifier.UI
             if (valid.IsValid(_firstdate) && valid.IsValid(_seconddate))
             {
                 if (valid.IsValid(_login))
-                {
-                    OutputData outputdatawindow = new OutputData();
-                    outputdatawindow.ShowDialog();
+                { //497 на 301 - минимум
+                    mainWindowWidth = this.Width;
+                    mainWindowHeight = this.Height;
+                    this.Left = System.Windows.SystemParameters.PrimaryScreenWidth/2 
+                        - (mainWindowWidth + outputdataWidth)/2;
+                    this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - outputdataHeight / 2; 
+                    var _leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
+                    var _topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;
+                    OutputData _outputDataWindow = new OutputData();
+                    _outputDataWindow.EventOutputDataClosed += ChangePlace;
+                    _outputDataWindow.Left = _leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
+                    _outputDataWindow.Top = _topOfTheScreen/2 - outputdataHeight / 2;
+                    _outputDataWindow.MinHeight = 350;
+                    _outputDataWindow.MinWidth = 210;
+                    _outputDataWindow.Show();
                 }
                 else
                 {
@@ -83,6 +109,21 @@ namespace MoodIdentifier.UI
             {
                 MessageBox.Show("Пожалуйста, введите конкретные данные в поле дата");
             }
+        }
+
+        private void Info(object sender, RoutedEventArgs e)
+        {
+            textBoxInfo.Visibility = Visibility.Visible;
+            ButtonInfo.IsEnabled = true;
+            ButtonInfo.Visibility = Visibility.Visible;
+        }
+
+        private void ButtonInfo_Click(object sender, RoutedEventArgs e)
+        {
+            textBoxInfo.Visibility = Visibility.Hidden;
+            ButtonInfo.IsEnabled = false;
+            ButtonInfo.Visibility = Visibility.Hidden;
+            
         }
     }
 }
