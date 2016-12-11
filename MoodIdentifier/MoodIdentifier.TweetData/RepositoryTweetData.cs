@@ -15,7 +15,7 @@ namespace MoodIdentifier.TweetData
             {
                 ConsumerKey = "",
                 ConsumerSecret = "",
-                AccessToken =" ",
+                AccessToken = "",
                 AccessTokenSecret = ""
 
             }

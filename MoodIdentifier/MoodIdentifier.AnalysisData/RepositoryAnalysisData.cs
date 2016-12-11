@@ -15,7 +15,7 @@ namespace MoodIdentifier.AnalysisData
 {
     public class RepositoryAnalysisData
     {
-        public const string AppId = "Tonya Key";
+        public const string AppId = "";
 
 
         public string CheckAnalysis(string text)

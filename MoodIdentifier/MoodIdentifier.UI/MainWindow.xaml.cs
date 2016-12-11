@@ -90,6 +90,7 @@ namespace MoodIdentifier.UI
             DateTime? _firstdate = DatePickerFirst.SelectedDate;
             DateTime? _seconddate = DatePickerSecond.SelectedDate;
             Validation valid = new Validation();
+            OutputData _outputDataWindow = new OutputData();
             if (valid.IsValid(_firstdate) && valid.IsValid(_seconddate))
             {
                 if (valid.IsValid(_login))
@@ -100,8 +101,7 @@ namespace MoodIdentifier.UI
                         - (mainWindowWidth + outputdataWidth)/2;
                     this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - outputdataHeight / 2; 
                     var _leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
-                    var _topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;
-                    OutputData _outputDataWindow = new OutputData();
+                    var _topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;                    
                     _outputDataWindow.EventOutputDataClosed += ChangePlace;
                     _outputDataWindow.Left = _leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
                     _outputDataWindow.Top = _topOfTheScreen/2 - outputdataHeight / 2;
@@ -117,6 +117,15 @@ namespace MoodIdentifier.UI
             else
             {
                 MessageBox.Show("Пожалуйста, введите конкретные данные в поле дата");
+            }
+            RepositoryTweetData rtd = new RepositoryTweetData();
+            RepositoryAnalysisData rad = new RepositoryAnalysisData();
+            foreach (var i in rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate))
+            {
+                var a = rad.GetAnalysis(i);
+                //Вывод в датагрид надо сделать
+                //_outputDataWindow.dataGridOutput.Items.Add(String.Format("Anger: {0}, Disqust: {1}, Fear: {2}, Joy: {3}, Sadness: {4}",
+                //   a.DocEmotions.Anger, a.DocEmotions.Disgust, a.DocEmotions.Fear, a.DocEmotions.Joy, a.DocEmotions.Sadness));
             }
         }
 
