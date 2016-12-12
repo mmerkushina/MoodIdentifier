@@ -66,7 +66,44 @@ namespace MoodIdentifier.AnalysisData
 
 
 
+        
+        public List<Answer> GetAnswer(List<List<string>> SetOfTweets) //метод выдает самую сильную эмоцию которую считывает с массива из рванного массива 
+        {
+            List<Answer> SetAnalysisDate = new List<Answer>();
+            
+            List<docEmotions> DataForAnalysis = new List<docEmotions>();
+            foreach (List<string> SetOnedayTweet in SetOfTweets)
+            {
+                int count = 0;
+                foreach (string TextOfTweet in SetOnedayTweet)
+                {
+                   
+                    docEmotions RawAnalysis = (GetAnalysis(TextOfTweet).DocEmotions);
+                    DataForAnalysis.Add(RawAnalysis);
+                }
+                EmotionalsOneDay emotionaloneday = new EmotionalsOneDay();
+                foreach (docEmotions OneTweetData in DataForAnalysis) // Суммирует значения каждой эмоции из каждого твитта
+                {
 
+                    emotionaloneday.Anger = emotionaloneday.Anger + FromStrToFloat(OneTweetData.Anger);
+                    emotionaloneday.Disgust = emotionaloneday.Disgust + FromStrToFloat(OneTweetData.Disgust);
+                    emotionaloneday.Fear = emotionaloneday.Fear + FromStrToFloat(OneTweetData.Fear);
+                    emotionaloneday.Joy = emotionaloneday.Joy + FromStrToFloat(OneTweetData.Joy);
+                    emotionaloneday.Sadness = emotionaloneday.Sadness + FromStrToFloat(OneTweetData.Sadness);
+                    count = count + 1;
+                }
+                SetAnalysisDate.Add(Сomputation(emotionaloneday, count));
+
+            }
+
+            return (SetAnalysisDate);
+            
+
+
+        }
+
+        /*
+         //Старый метод
         public Answer GetAnswer(List<TweetModel> SetOfTweets) //метод выдает самую сильную эмоцию которую считывает с массива из TweetModel. 
         {
             int count = 0;
@@ -93,9 +130,10 @@ namespace MoodIdentifier.AnalysisData
             return (Сomputation(emotionaloneday, count));
             
 
-        }
+        }*/
 
 
-        
+
+
     }
 }
