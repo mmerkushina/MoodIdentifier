@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoodIdentifier.AnalysisData
 {
-   public class EmotionalsOneDay
+   public class EmotionOneDay
     {
 
         

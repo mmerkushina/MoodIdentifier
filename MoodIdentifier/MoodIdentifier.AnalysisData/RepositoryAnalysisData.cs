@@ -45,7 +45,7 @@ namespace MoodIdentifier.AnalysisData
 
 
 
-        public Answer Сomputation(EmotionalsOneDay emotionaloneday,int count) //что-нибудь с этим придумаем и изменим 
+        public Answer Сomputation(EmotionOneDay emotionaloneday,int count) //что-нибудь с этим придумаем и изменим 
         {
             float[] Numbers = new float[] { emotionaloneday.Anger, emotionaloneday.Disgust, emotionaloneday.Fear, emotionaloneday.Joy, emotionaloneday.Sadness };
             float max = Numbers.Max();
@@ -66,23 +66,30 @@ namespace MoodIdentifier.AnalysisData
 
 
 
-        
-        public List<Answer> GetAnswer(List<List<string>> SetOfTweets) //метод выдает самую сильную эмоцию которую считывает с массива из рванного массива 
+
+        public Dictionary<DateTime, Answer> GetAnswer(Dictionary<DateTime,List<string>> SetOfTweets)  
         {
+            Dictionary<DateTime, Answer> Answers = new Dictionary<DateTime, Answer>();
             List<Answer> SetAnalysisDate = new List<Answer>();
             
-            List<docEmotions> DataForAnalysis = new List<docEmotions>();
-            foreach (List<string> SetOnedayTweet in SetOfTweets)
+            
+            
+            foreach (KeyValuePair<DateTime, List<string>> keyValue in SetOfTweets)
             {
                 int count = 0;
+                List<docEmotions> DataForAnalysis = new List<docEmotions>();
+                List<string> SetOnedayTweet = keyValue.Value;
                 foreach (string TextOfTweet in SetOnedayTweet)
                 {
-                   
+
                     docEmotions RawAnalysis = (GetAnalysis(TextOfTweet).DocEmotions);
                     DataForAnalysis.Add(RawAnalysis);
+                   
                 }
-                EmotionalsOneDay emotionaloneday = new EmotionalsOneDay();
-                foreach (docEmotions OneTweetData in DataForAnalysis) // Суммирует значения каждой эмоции из каждого твитта
+
+                EmotionOneDay emotionaloneday = new EmotionOneDay();
+
+                foreach (docEmotions OneTweetData in DataForAnalysis) 
                 {
 
                     emotionaloneday.Anger = emotionaloneday.Anger + FromStrToFloat(OneTweetData.Anger);
@@ -92,18 +99,48 @@ namespace MoodIdentifier.AnalysisData
                     emotionaloneday.Sadness = emotionaloneday.Sadness + FromStrToFloat(OneTweetData.Sadness);
                     count = count + 1;
                 }
-                SetAnalysisDate.Add(Сomputation(emotionaloneday, count));
+                Answer a = Сomputation(emotionaloneday, count);
+                Answers.Add(keyValue.Key,a);
 
             }
 
-            return (SetAnalysisDate);
-            
 
-
+            return (Answers); //метод возвращает словарь из (ключ - дата)-(начение-эмоция+цифраэмоции) по всем датам
         }
 
         /*
-         //Старый метод
+        foreach (List<string> SetOnedayTweet in SetOfTweets) //старый метод
+        {
+            int count = 0;
+            foreach (string TextOfTweet in SetOnedayTweet)
+            {
+
+                docEmotions RawAnalysis = (GetAnalysis(TextOfTweet).DocEmotions);
+                DataForAnalysis.Add(RawAnalysis);
+            }
+            EmotionOneDay emotionaloneday = new EmotionOneDay();
+            foreach (docEmotions OneTweetData in DataForAnalysis) // Суммирует значения каждой эмоции из каждого твитта
+            {
+
+                emotionaloneday.Anger = emotionaloneday.Anger + FromStrToFloat(OneTweetData.Anger);
+                emotionaloneday.Disgust = emotionaloneday.Disgust + FromStrToFloat(OneTweetData.Disgust);
+                emotionaloneday.Fear = emotionaloneday.Fear + FromStrToFloat(OneTweetData.Fear);
+                emotionaloneday.Joy = emotionaloneday.Joy + FromStrToFloat(OneTweetData.Joy);
+                emotionaloneday.Sadness = emotionaloneday.Sadness + FromStrToFloat(OneTweetData.Sadness);
+                count = count + 1;
+            }
+            SetAnalysisDate.Add(Сomputation(emotionaloneday, count));
+
+        }
+
+        return (SetAnalysisDate);
+
+        */
+
+
+
+        /*
+         //Старый метод очень старый
         public Answer GetAnswer(List<TweetModel> SetOfTweets) //метод выдает самую сильную эмоцию которую считывает с массива из TweetModel. 
         {
             int count = 0;

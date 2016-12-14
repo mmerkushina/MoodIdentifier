@@ -119,16 +119,17 @@ namespace MoodIdentifier.UI
             RepositoryTweetData rtd = new RepositoryTweetData();
             RepositoryAnalysisData rad = new RepositoryAnalysisData();
             List<Results> outputdatalist = new List<Results>();
+            /*
             foreach (var i in rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate))
             {
                 float sum = 0;
-                var a = await rad.GetAnalysis(i);
+                var a = await rad.GetAnalysis(i); 
                 outputdatalist.Add(a);
                 //Вывод в датагрид надо сделать
                 //_outputDataWindow.dataGridOutput.Items.Add(String.Format("Anger: {0}, Disqust: {1}, Fear: {2}, Joy: {3}, Sadness: {4}",
                 //   a.DocEmotions.Anger, a.DocEmotions.Disgust, a.DocEmotions.Fear, a.DocEmotions.Joy, a.DocEmotions.Sadness));
             }
-            _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
+            _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;*/
         }
 
         private void Info(object sender, RoutedEventArgs e)
