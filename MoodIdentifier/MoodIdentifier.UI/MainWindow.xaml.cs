@@ -122,7 +122,8 @@ namespace MoodIdentifier.UI
             RepositoryAnalysisData rad = new RepositoryAnalysisData();
             foreach (var i in rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate))
             {
-                var a = rad.GetAnalysis(i);
+                float sum = 0;
+              //  var a = rad.GetAnalysis(i);
                 //Вывод в датагрид надо сделать
                 //_outputDataWindow.dataGridOutput.Items.Add(String.Format("Anger: {0}, Disqust: {1}, Fear: {2}, Joy: {3}, Sadness: {4}",
                 //   a.DocEmotions.Anger, a.DocEmotions.Disgust, a.DocEmotions.Fear, a.DocEmotions.Joy, a.DocEmotions.Sadness));
