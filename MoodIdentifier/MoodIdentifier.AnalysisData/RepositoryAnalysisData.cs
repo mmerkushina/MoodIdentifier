@@ -21,7 +21,16 @@ namespace MoodIdentifier.AnalysisData
         public string CheckAnalysis(string text)
         {           
             text= HttpUtility.UrlEncode(text);
+           
             return string.Format("https://watson-api-explorer.mybluemix.net/alchemy-api/calls/text/TextGetEmotion?apikey={0}&text={1}&outputMode=json",AppId,text);
+
+
+            //Если это правильно, то раскомментируйте, а строчку выше наоборот
+
+            //string RawData= await string.Format("https://watson-api-explorer.mybluemix.net/alchemy-api/calls/text/TextGetEmotion?apikey={0}&text={1}&outputMode=json", AppId, text);
+            // return (RawData);
+
+            
         }
 
 
