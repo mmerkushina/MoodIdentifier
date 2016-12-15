@@ -104,7 +104,7 @@ namespace MoodIdentifier.AnalysisData
                     docEmotions RawAnalysis = b.DocEmotions;
                    
                     DataForAnalysis.Add(RawAnalysis);
-                   
+                   //а
                 }
 
                 EmotionOneDay emotionaloneday = new EmotionOneDay();
