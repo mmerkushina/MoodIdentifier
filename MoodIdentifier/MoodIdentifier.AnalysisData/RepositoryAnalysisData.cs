@@ -25,23 +25,31 @@ namespace MoodIdentifier.AnalysisData
             return string.Format("https://watson-api-explorer.mybluemix.net/alchemy-api/calls/text/TextGetEmotion?apikey={0}&text={1}&outputMode=json",AppId,text);
 
 
-            //Если это правильно, то раскомментируйте, а строчку выше наоборот
-
-            //string RawData= await string.Format("https://watson-api-explorer.mybluemix.net/alchemy-api/calls/text/TextGetEmotion?apikey={0}&text={1}&outputMode=json", AppId, text);
-            // return (RawData);
+            
 
             
         }
 
 
 
-        public Results GetAnalysis(string text)
+        public async Task<Results> GetAnalysis(string text)
         {
+           
             using (var client = new HttpClient())
             {
-                var result = client.GetStringAsync(CheckAnalysis(text)).Result;
-                return JsonConvert.DeserializeObject<Results>(result);
+                string raw = await client.GetStringAsync(CheckAnalysis(text));
+                var result = JsonConvert.DeserializeObject<Results>(raw);
+               
+                return (result);
             }
+
+
+            
+
+
+
+
+
         }
         
 
@@ -91,7 +99,10 @@ namespace MoodIdentifier.AnalysisData
                 foreach (string TextOfTweet in SetOnedayTweet)
                 {
 
-                    docEmotions RawAnalysis = (GetAnalysis(TextOfTweet).DocEmotions);
+
+                    var b = GetAnalysis(TextOfTweet).Result;
+                    docEmotions RawAnalysis = b.DocEmotions;
+                   
                     DataForAnalysis.Add(RawAnalysis);
                    
                 }
