@@ -13,10 +13,10 @@ namespace MoodIdentifier.TweetData
         {
             CredentialStore = new SingleUserInMemoryCredentialStore
             {
-                ConsumerKey = "",
-                ConsumerSecret = "",
-                AccessToken = "",
-                AccessTokenSecret = ""
+                ConsumerKey = "BSbTPhanWTTQ6NKcLLgtYpbL9",
+                ConsumerSecret = "NoN1fU2sthF4unDCTnpxqQ8RNhqcYp8LM7vWUPUC7Lv10uzC3a",
+                AccessToken = "470968737-cC3qTBWWcKhqZfgcRVIpB4bwYwDWgsFISfUtDjhp",
+                AccessTokenSecret = "2PLKJ49tcSILy8qQsQfxMpUqDzmJzYqDxbClDTqtOQszQ"
 
             }
         };
