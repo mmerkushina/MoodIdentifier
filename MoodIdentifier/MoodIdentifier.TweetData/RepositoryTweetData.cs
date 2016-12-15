@@ -13,13 +13,14 @@ namespace MoodIdentifier.TweetData
         {
             CredentialStore = new SingleUserInMemoryCredentialStore
             {
-                ConsumerKey = "",
-                ConsumerSecret = "",
-                AccessToken = "",
-                AccessTokenSecret = ""
+                ConsumerKey = "BSbTPhanWTTQ6NKcLLgtYpbL9",
+                ConsumerSecret = "NoN1fU2sthF4unDCTnpxqQ8RNhqcYp8LM7vWUPUC7Lv10uzC3a",
+                AccessToken = "470968737-cC3qTBWWcKhqZfgcRVIpB4bwYwDWgsFISfUtDjhp",
+                AccessTokenSecret = "2PLKJ49tcSILy8qQsQfxMpUqDzmJzYqDxbClDTqtOQszQ"
 
             }
         };
+
         public List<TweetModel> TweetsCollection { get; set; }
         public Dictionary<DateTime,List<string>> GetTweets(string screenname, DateTime begin, DateTime end)
         {
@@ -36,6 +37,11 @@ namespace MoodIdentifier.TweetData
                          group tweet.Text by tweet.CreatedAt.Date;
 
             return tweets.ToDictionary(t => t.Key, t => t.ToList());
+        }
+
+        public void PostTweet(string text)
+        {
+
         }
         /* //Метод для тестирования без json Тоня
         public List<TweetModel> GetTweetsForT(string screenname, DateTime begin, DateTime end)
