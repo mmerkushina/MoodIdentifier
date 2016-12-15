@@ -92,7 +92,7 @@ namespace MoodIdentifier.UI
             if (valid.IsValid(_firstdate) && valid.IsValid(_seconddate))
             {
                 if (valid.IsValid(_login))
-                { //497 на 301 - минимум
+                {
                     mainWindowWidth = this.Width;
                     mainWindowHeight = this.Height;
                     this.Left = System.Windows.SystemParameters.PrimaryScreenWidth/2 
@@ -106,6 +106,16 @@ namespace MoodIdentifier.UI
                     _outputDataWindow.MinHeight = 350;
                     _outputDataWindow.MinWidth = 210;
                     _outputDataWindow.Show();
+                    RepositoryTweetData rtd = new RepositoryTweetData();
+                    RepositoryAnalysisData rad = new RepositoryAnalysisData();
+                    Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate);
+                    var analyzed = rad.GetAnswer(tweets);
+                    List<DataToOutput> outputdatalist = new List<DataToOutput>();
+                    foreach (var item in analyzed)
+                    {
+                        outputdatalist.Add(new DataToOutput { Date = item.Key, Emotion = item.Value.Emotion, NumberEmo = item.Value.NumberEmo });
+                    }
+                    _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
                 }
                 else
                 {
@@ -116,27 +126,6 @@ namespace MoodIdentifier.UI
             {
                 MessageBox.Show("Пожалуйста, введите конкретные данные в поле дата");
             }
-            RepositoryTweetData rtd = new RepositoryTweetData();
-            RepositoryAnalysisData rad = new RepositoryAnalysisData();
-            Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate);
-            var analyzed = rad.GetAnswer(tweets);
-            List<DataToOutput> outputdatalist = new List<DataToOutput>();
-            foreach (var item in analyzed)
-            {
-                outputdatalist.Add(new DataToOutput { Date = item.Key,Emotion = item.Value.Emotion, NumberEmo = item.Value.NumberEmo });
-            }
-            _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
-            /*
-            foreach (var i in rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate))
-            {
-                float sum = 0;
-                var a = await rad.GetAnalysis(i); 
-                outputdatalist.Add(a);
-                //Вывод в датагрид надо сделать
-                //_outputDataWindow.dataGridOutput.Items.Add(String.Format("Anger: {0}, Disqust: {1}, Fear: {2}, Joy: {3}, Sadness: {4}",
-                //   a.DocEmotions.Anger, a.DocEmotions.Disgust, a.DocEmotions.Fear, a.DocEmotions.Joy, a.DocEmotions.Sadness));
-            }
-            _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;*/
         }
 
         private void Info(object sender, RoutedEventArgs e)
