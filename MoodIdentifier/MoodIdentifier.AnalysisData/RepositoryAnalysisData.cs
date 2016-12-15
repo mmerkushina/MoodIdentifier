@@ -75,7 +75,7 @@ namespace MoodIdentifier.AnalysisData
 
 
 
-
+        //этот метод интересен
         public Dictionary<DateTime, Answer> GetAnswer(Dictionary<DateTime,List<string>> SetOfTweets)  
         {
             Dictionary<DateTime, Answer> Answers = new Dictionary<DateTime, Answer>();
