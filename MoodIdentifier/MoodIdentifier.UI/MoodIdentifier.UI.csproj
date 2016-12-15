@@ -79,6 +79,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DataToOutput.cs" />
     <Compile Include="OutputData.xaml.cs">
       <DependentUpon>OutputData.xaml</DependentUpon>
     </Compile>

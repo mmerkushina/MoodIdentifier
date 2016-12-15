@@ -118,7 +118,14 @@ namespace MoodIdentifier.UI
             }
             RepositoryTweetData rtd = new RepositoryTweetData();
             RepositoryAnalysisData rad = new RepositoryAnalysisData();
-            List<Results> outputdatalist = new List<Results>();
+            Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate);
+            var analyzed = rad.GetAnswer(tweets);
+            List<DataToOutput> outputdatalist = new List<DataToOutput>();
+            foreach (var item in analyzed)
+            {
+                outputdatalist.Add(new DataToOutput { Date = item.Key,Emotion = item.Value.Emotion, NumberEmo = item.Value.NumberEmo });
+            }
+            _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
             /*
             foreach (var i in rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate))
             {
