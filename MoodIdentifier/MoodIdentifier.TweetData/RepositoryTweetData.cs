@@ -20,6 +20,7 @@ namespace MoodIdentifier.TweetData
 
             }
         };
+
         public List<TweetModel> TweetsCollection { get; set; }
         public Dictionary<DateTime,List<string>> GetTweets(string screenname, DateTime begin, DateTime end)
         {
@@ -36,6 +37,11 @@ namespace MoodIdentifier.TweetData
                          group tweet.Text by tweet.CreatedAt.Date;
 
             return tweets.ToDictionary(t => t.Key, t => t.ToList());
+        }
+
+        public void PostTweet(string text)
+        {
+
         }
         /* //Метод для тестирования без json Тоня
         public List<TweetModel> GetTweetsForT(string screenname, DateTime begin, DateTime end)
