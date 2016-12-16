@@ -15,7 +15,7 @@ namespace MoodIdentifier.AnalysisData
 {
     public class RepositoryAnalysisData
     {
-        public const string AppId = "";
+        public const string AppId = "375d440c74c17eba6676796f88ef68a2abb7fb14";
 
 
         public string CheckAnalysis(string text)
@@ -71,7 +71,7 @@ namespace MoodIdentifier.AnalysisData
 
 
         
-        public Dictionary<DateTime, Answer> GetAnswer(Dictionary<DateTime,List<string>> SetOfTweets)  
+        public async  Task<Dictionary<DateTime, Answer>> GetAnswer(Dictionary<DateTime,List<string>> SetOfTweets)  
         {
             Dictionary<DateTime, Answer> Answers = new Dictionary<DateTime, Answer>();
             List<Answer> SetAnalysisDate = new List<Answer>();
@@ -83,13 +83,15 @@ namespace MoodIdentifier.AnalysisData
                 int count = 0;
                 List<docEmotions> DataForAnalysis = new List<docEmotions>();
                 List<string> SetOnedayTweet = keyValue.Value;
+                Console.WriteLine("Тута");
+                Console.WriteLine("Тута2");
                 foreach (string TextOfTweet in SetOnedayTweet)
                 {
 
 
-                    var b = GetAnalysis(TextOfTweet).Result;
+                    var b = await GetAnalysis(TextOfTweet);
                     docEmotions RawAnalysis = b.DocEmotions;
-                   
+                    
                     DataForAnalysis.Add(RawAnalysis);
                    //а
                 }
@@ -106,6 +108,7 @@ namespace MoodIdentifier.AnalysisData
                     emotionaloneday.Sadness = emotionaloneday.Sadness + FromStrToFloat(OneTweetData.Sadness);
                     count = count + 1;
                 }
+
                 Answer a = Сomputation(emotionaloneday, count);
                 Answers.Add(keyValue.Key,a);
 

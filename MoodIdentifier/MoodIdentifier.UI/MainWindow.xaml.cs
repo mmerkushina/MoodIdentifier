@@ -109,7 +109,7 @@ namespace MoodIdentifier.UI
                     RepositoryTweetData rtd = new RepositoryTweetData();
                     RepositoryAnalysisData rad = new RepositoryAnalysisData();
                     Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate);
-                    var analyzed = rad.GetAnswer(tweets);
+                    var analyzed = await rad.GetAnswer(tweets);
                     List<DataToOutput> outputdatalist = new List<DataToOutput>();
                     foreach (var item in analyzed)
                     {
