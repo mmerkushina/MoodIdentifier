@@ -32,6 +32,7 @@ namespace MoodIdentifier.AnalysisData
            
             using (var client = new HttpClient())
             {
+                System.Threading.Thread.Sleep(4000);
                 var raw = await client.GetStringAsync(CheckAnalysis(text));
                  var result = JsonConvert.DeserializeObject<Results>(raw);
                 
@@ -88,8 +89,9 @@ namespace MoodIdentifier.AnalysisData
                 foreach (string TextOfTweet in SetOnedayTweet)
                 {
 
-
+                    System.Threading.Thread.Sleep(4000);
                     var b = await GetAnalysis(TextOfTweet);
+                   
                     docEmotions RawAnalysis = b.DocEmotions;
                     
                     DataForAnalysis.Add(RawAnalysis);
