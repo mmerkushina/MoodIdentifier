@@ -26,20 +26,20 @@ namespace MoodIdentifier.AnalysisData
         }
 
 
-
+/*
         public async Task<Results> GetAnalysis(string text)
         {
-           
+           // System.Threading.Thread.Sleep(1000);
             using (var client = new HttpClient())
             {
-                System.Threading.Thread.Sleep(4000);
+            //var client = new HttpClient();
                 var raw = await client.GetStringAsync(CheckAnalysis(text));
                  var result = JsonConvert.DeserializeObject<Results>(raw);
                 
                 return result;
             }
         }
-
+*/
 
         //работай прога
         public float FromStrToFloat(string str)
@@ -85,17 +85,26 @@ namespace MoodIdentifier.AnalysisData
                 List<docEmotions> DataForAnalysis = new List<docEmotions>();
                 List<string> SetOnedayTweet = keyValue.Value;
                 Console.WriteLine("Тута");
-                Console.WriteLine("Тута2");
-                foreach (string TextOfTweet in SetOnedayTweet)
+                using (var client = new HttpClient())
                 {
-
-                    System.Threading.Thread.Sleep(4000);
-                    var b = await GetAnalysis(TextOfTweet);
+                    //var client = new HttpClient();
                    
-                    docEmotions RawAnalysis = b.DocEmotions;
                     
-                    DataForAnalysis.Add(RawAnalysis);
-                   //а
+
+                    foreach (string TextOfTweet in SetOnedayTweet)
+                    {
+                        Console.WriteLine("Тута2");
+                        var raw = await client.GetStringAsync(CheckAnalysis(TextOfTweet));
+                        var result = JsonConvert.DeserializeObject<Results>(raw);
+                        var c = result;
+                        // System.Threading.Thread.Sleep(200);
+                       // var b = await GetAnalysis(TextOfTweet);
+
+                        docEmotions RawAnalysis = c.DocEmotions;
+
+                        DataForAnalysis.Add(RawAnalysis);
+                        //а
+                    }
                 }
 
                 EmotionOneDay emotionaloneday = new EmotionOneDay();
