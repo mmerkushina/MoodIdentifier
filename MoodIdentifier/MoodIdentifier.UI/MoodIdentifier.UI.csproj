@@ -80,6 +80,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DataToOutput.cs" />
+    <Compile Include="EmotionPicture.cs" />
     <Compile Include="OutputData.xaml.cs">
       <DependentUpon>OutputData.xaml</DependentUpon>
     </Compile>
@@ -143,7 +144,7 @@
     <Resource Include="Pictures\background.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Pictures\anger.PNG" />
+    <EmbeddedResource Include="Pictures\anger.PNG" />
     <Resource Include="Pictures\disgust.PNG" />
     <Resource Include="Pictures\fear.PNG" />
     <Resource Include="Pictures\joy.PNG" />

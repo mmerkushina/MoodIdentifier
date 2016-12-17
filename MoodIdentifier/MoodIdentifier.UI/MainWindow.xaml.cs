@@ -84,48 +84,75 @@ namespace MoodIdentifier.UI
 
         private async void Buttion_Start_analyzing_Click(object sender, RoutedEventArgs e)
         {
-            string _login = TextBox_Login.Text;
-            DateTime? _firstdate = DatePickerFirst.SelectedDate;
-            DateTime? _seconddate = DatePickerSecond.SelectedDate;
+            string login = TextBox_Login.Text;
+            DateTime? firstdate = DatePickerFirst.SelectedDate;
+            DateTime? seconddate = DatePickerSecond.SelectedDate;
             Validation valid = new Validation();
             OutputData _outputDataWindow = new OutputData();
-            if (valid.IsValid(_firstdate,_seconddate))
+            _outputDataWindow.EventOutputDataClosed += ChangePlace;
+            if (valid.IsValid(firstdate,seconddate))
             {
-                _seconddate = new DateTime(_seconddate.Value.Year, _seconddate.Value.Month, _seconddate.Value.Day+1);
-                if (valid.IsValid(_login))
+                seconddate = new DateTime(seconddate.Value.Year, seconddate.Value.Month, seconddate.Value.Day+1);
+                if (valid.IsValid(login))
                 {
                     mainWindowWidth = this.Width;
                     mainWindowHeight = this.Height;
                     this.Left = System.Windows.SystemParameters.PrimaryScreenWidth/2 
                         - (mainWindowWidth + outputdataWidth)/2;
                     this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - outputdataHeight / 2; 
-                    var _leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
-                    var _topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;                    
-                    _outputDataWindow.EventOutputDataClosed += ChangePlace;
-                    _outputDataWindow.Left = _leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
-                    _outputDataWindow.Top = _topOfTheScreen/2 - outputdataHeight / 2;
+                    var leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
+                    var topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;         
+                    _outputDataWindow.Left = leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
+                    _outputDataWindow.Top = topOfTheScreen/2 - outputdataHeight / 2;
                     _outputDataWindow.MinHeight = 350;
                     _outputDataWindow.MinWidth = 210;
                     _outputDataWindow.Show();
                     RepositoryTweetData rtd = new RepositoryTweetData();
                     RepositoryAnalysisData rad = new RepositoryAnalysisData();
-                    Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(_login, (DateTime)_firstdate, (DateTime)_seconddate);
+                    List<EmotionPicture> emotionPictures = new List<EmotionPicture>();
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/background.png") });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/disgust.png") });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/fear.png") });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/joy.png") });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/sadness.png") });
+                    Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
                     var analyzed = await rad.GetAnswer(tweets);
                     List<DataToOutput> outputdatalist = new List<DataToOutput>();
+                    string emotion = "anger";
                     foreach (var item in analyzed)
                     {
-                        outputdatalist.Add(new DataToOutput { Date = item.Key.Date, Main_Emotion = item.Value.Emotion, Statistics = item.Value.NumberEmo });
+                        var temp = new DataToOutput();
+                        temp.Date = item.Key.Date.ToString("d");
+                        switch (emotion)
+                        {
+                            case "anger":
+                                temp.Main_Emotion = emotionPictures[0].ImageFilePath;
+                                break;
+                            case "disgust":
+                                temp.Main_Emotion = emotionPictures[1].ImageFilePath;
+                                break;
+                            case "fear":
+                                temp.Main_Emotion = emotionPictures[2].ImageFilePath;
+                                break;
+                            case "joy":
+                                temp.Main_Emotion = emotionPictures[3].ImageFilePath;
+                                break;
+                            case "sadness":
+                                temp.Main_Emotion = emotionPictures[4].ImageFilePath;
+                                break;
+                        }
+                        outputdatalist.Add(temp);
                     }
                     _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
                 }
                 else
                 {
-                    MessageBox.Show("Пожалуйста, введите корректный логин");
+                    MessageBox.Show("Please, enter correct login");
                 }
             }
             else
             {
-                MessageBox.Show("Пожалуйста, введите конкретные данные в поле дата");
+                MessageBox.Show("Please, enter correct dates");
             }
         }
 
