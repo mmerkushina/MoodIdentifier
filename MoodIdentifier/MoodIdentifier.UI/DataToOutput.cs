@@ -10,7 +10,7 @@ namespace MoodIdentifier.UI
     public class DataToOutput
     {
         public DateTime Date { get; set; }
-        public string Emotion { get; set; }
-        public float NumberEmo { get; set; }
+        public string Main_Emotion { get; set; }
+        public float Statistics { get; set; }
     }
 }

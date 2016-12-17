@@ -89,8 +89,9 @@ namespace MoodIdentifier.UI
             DateTime? _seconddate = DatePickerSecond.SelectedDate;
             Validation valid = new Validation();
             OutputData _outputDataWindow = new OutputData();
-            if (valid.IsValid(_firstdate) && valid.IsValid(_seconddate))
+            if (valid.IsValid(_firstdate,_seconddate))
             {
+                _seconddate = new DateTime(_seconddate.Value.Year, _seconddate.Value.Month, _seconddate.Value.Day+1);
                 if (valid.IsValid(_login))
                 {
                     mainWindowWidth = this.Width;
@@ -113,7 +114,7 @@ namespace MoodIdentifier.UI
                     List<DataToOutput> outputdatalist = new List<DataToOutput>();
                     foreach (var item in analyzed)
                     {
-                        outputdatalist.Add(new DataToOutput { Date = item.Key, Emotion = item.Value.Emotion, NumberEmo = item.Value.NumberEmo });
+                        outputdatalist.Add(new DataToOutput { Date = item.Key.Date, Main_Emotion = item.Value.Emotion, Statistics = item.Value.NumberEmo });
                     }
                     _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
                 }
