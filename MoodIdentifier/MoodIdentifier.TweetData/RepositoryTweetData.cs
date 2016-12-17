@@ -32,7 +32,7 @@ namespace MoodIdentifier.TweetData
                          tweet.Lang == "en" &&
                          tweet.CreatedAt >= begin &&
                          tweet.CreatedAt <= end &&
-                         tweet.Count == 200
+                         tweet.Count == 200 
                          orderby tweet.CreatedAt
                          group tweet.Text by tweet.CreatedAt.Date;
 
