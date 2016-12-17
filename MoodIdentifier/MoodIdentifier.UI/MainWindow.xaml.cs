@@ -88,8 +88,8 @@ namespace MoodIdentifier.UI
             DateTime? firstdate = DatePickerFirst.SelectedDate;
             DateTime? seconddate = DatePickerSecond.SelectedDate;
             Validation valid = new Validation();
-            OutputData _outputDataWindow = new OutputData();
-            _outputDataWindow.EventOutputDataClosed += ChangePlace;
+            OutputData outputDataWindow = new OutputData();
+            outputDataWindow.EventOutputDataClosed += ChangePlace;
             if (valid.IsValid(firstdate,seconddate))
             {
                 seconddate = new DateTime(seconddate.Value.Year, seconddate.Value.Month, seconddate.Value.Day+1);
@@ -102,19 +102,19 @@ namespace MoodIdentifier.UI
                     this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - outputdataHeight / 2; 
                     var leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
                     var topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;         
-                    _outputDataWindow.Left = leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
-                    _outputDataWindow.Top = topOfTheScreen/2 - outputdataHeight / 2;
-                    _outputDataWindow.MinHeight = 350;
-                    _outputDataWindow.MinWidth = 210;
-                    _outputDataWindow.Show();
+                    outputDataWindow.Left = leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
+                    outputDataWindow.Top = topOfTheScreen/2 - outputdataHeight / 2;
+                    outputDataWindow.MinHeight = 350;
+                    outputDataWindow.MinWidth = 210;
+                    outputDataWindow.Show();
                     RepositoryTweetData rtd = new RepositoryTweetData();
                     RepositoryAnalysisData rad = new RepositoryAnalysisData();
                     List<EmotionPicture> emotionPictures = new List<EmotionPicture>();
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/background.png") });
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/disgust.png") });
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/fear.png") });
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/joy.png") });
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri("Pictures/sadness.png") });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\anger.png")) });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\disgust.png")) });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\fear.png")) });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\joy.png")) });
+                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\sadness.png")) });
                     Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
                     var analyzed = await rad.GetAnswer(tweets);
                     List<DataToOutput> outputdatalist = new List<DataToOutput>();
@@ -123,27 +123,32 @@ namespace MoodIdentifier.UI
                     {
                         var temp = new DataToOutput();
                         temp.Date = item.Key.Date.ToString("d");
+                        emotion = item.Value.Emotion;
                         switch (emotion)
                         {
-                            case "anger":
-                                temp.Main_Emotion = emotionPictures[0].ImageFilePath;
+                            case "Anger":
+                                temp.EmotionImage = new BitmapImage(emotionPictures[0].ImageFilePath/*,UriKind.Absolute*/);
                                 break;
-                            case "disgust":
-                                temp.Main_Emotion = emotionPictures[1].ImageFilePath;
+                            case "Disgust":
+                                temp.EmotionImage = new BitmapImage(emotionPictures[1].ImageFilePath);
                                 break;
-                            case "fear":
-                                temp.Main_Emotion = emotionPictures[2].ImageFilePath;
+                            case "Fear":
+                                temp.EmotionImage = new BitmapImage(emotionPictures[2].ImageFilePath);
                                 break;
-                            case "joy":
-                                temp.Main_Emotion = emotionPictures[3].ImageFilePath;
+                            case "Joy":
+                                temp.EmotionImage = new BitmapImage(new Uri("Pictures/joy.png", UriKind.Relative) /*emotionPictures[3].ImageFilePath*/);
                                 break;
-                            case "sadness":
-                                temp.Main_Emotion = emotionPictures[4].ImageFilePath;
+                            case "Sadness":
+                                temp.EmotionImage = new BitmapImage(emotionPictures[4].ImageFilePath);
                                 break;
                         }
                         outputdatalist.Add(temp);
                     }
-                    _outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
+                    //DataGridTemplateColumn columnforimages = new DataGridTemplateColumn();
+                    //columnforimages.Header = "Emotion";
+                    //outputDataWindow.dataGridOutput.Columns.Add(columnforimages);
+
+                    outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
                 }
                 else
                 {
