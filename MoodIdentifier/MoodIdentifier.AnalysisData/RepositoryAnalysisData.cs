@@ -32,7 +32,7 @@ namespace MoodIdentifier.AnalysisData
            
             using (var client = new HttpClient())
             {
-                System.Threading.Thread.Sleep(4000);
+                //System.Threading.Thread.Sleep(4000);
                 var raw = await client.GetStringAsync(CheckAnalysis(text));
                  var result = JsonConvert.DeserializeObject<Results>(raw);
                 
