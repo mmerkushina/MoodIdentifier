@@ -25,7 +25,6 @@ namespace MoodIdentifier.TweetData
         public Dictionary<DateTime,List<string>> GetTweets(string screenname, DateTime begin, DateTime end)
         {
             var twitterContext = new TwitterContext(user);
-            List<List<string>> result = new List<List<string>>();
             var tweets = from tweet in twitterContext.Status
                          where tweet.Type == StatusType.User &&
                          tweet.ScreenName == screenname &&
@@ -38,38 +37,5 @@ namespace MoodIdentifier.TweetData
 
             return tweets.ToDictionary(t => t.Key, t => t.ToList());
         }
-
-        public void PostTweet(string text)
-        {
-
-        }
-        /* //Метод для тестирования без json Тоня
-        public List<TweetModel> GetTweetsForT(string screenname, DateTime begin, DateTime end)
-        {
-            var twitterContext = new TwitterContext(user);
-
-            var tweets = from tweet in twitterContext.Status
-                         where tweet.Type == StatusType.User &&
-                         tweet.ScreenName == screenname &&
-                         tweet.Lang == "en" &&
-                         tweet.CreatedAt >= begin &&
-                         tweet.CreatedAt <= end &&
-                         tweet.Count == 200
-                         orderby tweet.CreatedAt
-                         //select tweet;
-                         select new TweetModel
-                         {
-                             Text = tweet.Text,
-                             Favourites = tweet.FavoriteCount,
-                             Retweets = tweet.RetweetCount
-                         };
-
-
-            TweetsCollection = tweets.ToList();
-           // List<string> TweetText = new List<string>();
-            //foreach (var t in TweetsCollection)
-              //  TweetText.Add(t.Text);
-            return TweetsCollection;
-        }*/
     }
 }

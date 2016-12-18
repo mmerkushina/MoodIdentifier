@@ -20,6 +20,7 @@ using System.Net;
 using System.IO;
 using LinqToTwitter;
 using MoodIdentifier.AnalysisData.DTO.Response;
+using System.Windows.Threading;
 
 namespace MoodIdentifier.UI
 {
@@ -32,7 +33,7 @@ namespace MoodIdentifier.UI
         public double mainWindowWidth = 525;
         public double outputdataHeight = 480;
         public double outputdataWidth = 640;
-     
+
         public void ChangePlace()
         {
             this.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2 - mainWindowWidth / 2;
@@ -94,49 +95,47 @@ namespace MoodIdentifier.UI
                 seconddate = new DateTime(seconddate.Value.Year, seconddate.Value.Month, seconddate.Value.Day+1);
                 if (valid.IsValid(login))
                 {
-                   
+
                     RepositoryTweetData rtd = new RepositoryTweetData();
                     RepositoryAnalysisData rad = new RepositoryAnalysisData();
-                   
-                    Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
-                    try
-                    {
-                        var analyzed = await rad.GetAnswer(tweets);
 
-                        List<DataToOutput> outputdatalist = new List<DataToOutput>();
-                        foreach (var item in analyzed)
+                    //Downloading tweets
+                    Dictionary<DateTime, List<string>> tweets = new Dictionary<DateTime, List<string>>();
+                    tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
+
+                    //Downloading emotion of each tweet
+                    Dictionary<DateTime, Answer> analyzed = new Dictionary<DateTime, Answer>();
+                    analyzed = await rad.GetAnswer(tweets);
+
+                    //Creating list in format of datagrid
+                    List<DataToOutput> outputdatalist = new List<DataToOutput>();
+                    foreach (var item in analyzed)
+                    {
+                        outputdatalist.Add(new DataToOutput
                         {
-                            var temp = new DataToOutput();
-                            temp.Date = item.Key.Date.ToString("d");
-                            temp.MainEmotion = item.Value.Emotion;
+                            Date = item.Key.Date.ToString("d"),
+                            MainEmotion = item.Value.Emotion
+                        });
+                    }
+                    //DataGridTemplateColumn columnforimages = new DataGridTemplateColumn();
+                    //columnforimages.Header = "Emotion";
+                    //outputDataWindow.dataGridOutput.Columns.Add(columnforimages);
+                    OutputData outputDataWindow = new OutputData();
+                    outputDataWindow.EventOutputDataClosed += ChangePlace;
+                    mainWindowWidth = this.Width;
+                    mainWindowHeight = this.Height;
+                    this.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2
+                        - (mainWindowWidth + outputdataWidth) / 2;
+                    this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - outputdataHeight / 2;
+                    var leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
+                    var topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;
+                    outputDataWindow.Left = leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
+                    outputDataWindow.Top = topOfTheScreen / 2 - outputdataHeight / 2;
+                    outputDataWindow.MinHeight = 350;
+                    outputDataWindow.MinWidth = 210;
+                    outputDataWindow.Show();
 
-                         
-                            outputdatalist.Add(temp);
-                        }
-                        //DataGridTemplateColumn columnforimages = new DataGridTemplateColumn();
-                        //columnforimages.Header = "Emotion";
-                        //outputDataWindow.dataGridOutput.Columns.Add(columnforimages);
-                        OutputData outputDataWindow = new OutputData();
-                        outputDataWindow.EventOutputDataClosed += ChangePlace;
-                        mainWindowWidth = this.Width;
-                        mainWindowHeight = this.Height;
-                        this.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2
-                            - (mainWindowWidth + outputdataWidth) / 2;
-                        this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - outputdataHeight / 2;
-                        var leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
-                        var topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;
-                        outputDataWindow.Left = leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
-                        outputDataWindow.Top = topOfTheScreen / 2 - outputdataHeight / 2;
-                        outputDataWindow.MinHeight = 350;
-                        outputDataWindow.MinWidth = 210;
-                        outputDataWindow.Show();
-                        outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Too many requests. Please, buy the full version of MyBlueMix.");
-                        ChangePlace();
-                    }
+                    outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
                 }
                 else
                 {

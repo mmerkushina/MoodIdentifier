@@ -84,27 +84,32 @@ namespace MoodIdentifier.AnalysisData
                 int count = 0;
                 List<docEmotions> DataForAnalysis = new List<docEmotions>();
                 List<string> SetOnedayTweet = keyValue.Value;
-                Console.WriteLine("Тута");
-                using (var client = new HttpClient())
+                try
                 {
-                    //var client = new HttpClient();
-                   
-                    
-
-                    foreach (string TextOfTweet in SetOnedayTweet)
+                    using (var client = new HttpClient())
                     {
-                        Console.WriteLine("Тута2");
-                        var raw = await client.GetStringAsync(CheckAnalysis(TextOfTweet));
-                        var result = JsonConvert.DeserializeObject<Results>(raw);
-                        var c = result;
-                        // System.Threading.Thread.Sleep(200);
-                       // var b = await GetAnalysis(TextOfTweet);
+                        //var client = new HttpClient();
 
-                        docEmotions RawAnalysis = c.DocEmotions;
 
-                        DataForAnalysis.Add(RawAnalysis);
-                        //а
+
+                        foreach (string TextOfTweet in SetOnedayTweet)
+                        {
+                            var raw = await client.GetStringAsync(CheckAnalysis(TextOfTweet));
+                            var result = JsonConvert.DeserializeObject<Results>(raw);
+                            var c = result;
+                            // System.Threading.Thread.Sleep(200);
+                            // var b = await GetAnalysis(TextOfTweet);
+
+                            docEmotions RawAnalysis = c.DocEmotions;
+
+                            DataForAnalysis.Add(RawAnalysis);
+                            //а
+                        }
                     }
+                }
+                catch
+                {
+                    throw new Exception("Too many requests. Please, buy the full version of MyBlueMix.");
                 }
 
                 EmotionOneDay emotionaloneday = new EmotionOneDay();
