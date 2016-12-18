@@ -82,40 +82,6 @@ namespace MoodIdentifier.UI
 
         public MainWindow()
         {
-            //Repository r = new Repository();
-            // FOR MASHA TO CHECK
-            //r.GetTweets("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6));
-            //foreach (var i in r.TweetsCollection)
-            //{
-            //    Console.WriteLine(i.Text);
-            //}
-
-            ///for Tonya 
-            /*
-            MoodIdentifier.AnalysisData.RepositoryAnalysisData repo = new MoodIdentifier.AnalysisData.RepositoryAnalysisData();
-            Console.WriteLine("Sentiment: {0}",repo.checkAnalysis());
-           string text2 = "I am happy";
-
-
-            var a = repo.GetAnalysis(text2);
-            Console.WriteLine(a.DocEmotions.Joy);
-            */
-            /*
-            RepositoryTweetData rtd = new RepositoryTweetData();
-            RepositoryAnalysisData rad = new RepositoryAnalysisData();
-            foreach (var i in rtd.GetTweets("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6)))
-            {
-                var a = rad.GetAnalysis(i);
-                Console.WriteLine("Anger: {0}, Disqust: {1}, Fear: {2}, Joy: {3}, Sadness: {4}",
-                   a.DocEmotions.Anger, a.DocEmotions.Disgust, a.DocEmotions.Fear, a.DocEmotions.Joy, a.DocEmotions.Sadness);
-            }*/
-
-            /* //Check for tonya again
-            //RepositoryTweetData rtd = new RepositoryTweetData();
-            //RepositoryAnalysisData rad = new RepositoryAnalysisData();
-            Console.WriteLine("HEY!");
-          Console.WriteLine(  rad.GetAnswer(rtd.GetTweetsForT("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6))).Emotion+"    " + rad.GetAnswer(rtd.GetTweetsForT("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6))).NumberEmo);
-            */
             animationTimer.Interval = new System.TimeSpan(0, 0, 0, 0, 70);
             ChangePlace();
             InitializeComponent();

@@ -47,8 +47,8 @@
         <Button x:Name="Button_Back_To_MainWindow" Content="Back" Grid.Column="10" Grid.Row="6" Click="Button_Back_To_MainWindow_Click"/>
         <Image x:Name="imageEmotion" Grid.Column="9" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2"/>
         <TextBlock Name="textBoxInfoMainEmotion" Grid.Column="9" Grid.Row="3" Grid.ColumnSpan="2" TextWrapping="Wrap" Background="White"/>
-        <Button Name="labelQuery" Content="Search emotion:" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Click="labelQuery_Click"/>
+        <Button Name="labelQuery" Content="Search emotion:" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Click="labelQuery_Click" Height="31" VerticalAlignment="Top"/>
         <TextBox Name="textBoxSearchQuery" Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="6" TextWrapping="Wrap" Background="White"/>
-        <Calendar Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" />
+        <Calendar Grid.Column="5" Grid.ColumnSpan="5" Grid.Row="1" Grid.RowSpan="2" Margin="26,0,52,0" />
     </Grid>
 </Window>

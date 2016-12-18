@@ -25,7 +25,6 @@ namespace MoodIdentifier.UI
         public delegate void DelegateForOutputDataClosed();
         public event DelegateForOutputDataClosed EventOutputDataClosed;
         List<EmotionPicture> emotionPictures = new List<EmotionPicture>();
-
         public OutputData(Dictionary<DateTime,ClassForAnalysis> dataframe)
         {
             Converter convert = new Converter();
@@ -81,9 +80,17 @@ namespace MoodIdentifier.UI
             dataGridOutput.Columns[1].Width = new DataGridLength(1, DataGridLengthUnitType.Star);
         }
 
+        MainWindow mw = new MainWindow();
         private void labelQuery_Click(object sender, RoutedEventArgs e)
         {
-
+            string query = textBoxSearchQuery.Text;
+            //if (query != null)
+            //{
+            //    foreach ( item in dataGridOutput.Items)
+            //    {
+            //        if item.
+            //    }
+            //}
         }
     }
 }
