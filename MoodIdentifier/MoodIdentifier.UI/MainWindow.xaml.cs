@@ -134,33 +134,20 @@ namespace MoodIdentifier.UI
                 seconddate = seconddate.Value.AddDays(1);
                 if (valid.IsValid(login))
                 {
+                    try
+                    {
+                        RepositoryTweetData rtd = new RepositoryTweetData();
+                        RepositoryAnalysisData rad = new RepositoryAnalysisData();
+                        Start();
+                        //Downloading tweets
+                        Dictionary<DateTime, List<string>> tweets = new Dictionary<DateTime, List<string>>();
+                        tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
 
-                    RepositoryTweetData rtd = new RepositoryTweetData();
-                    RepositoryAnalysisData rad = new RepositoryAnalysisData();
-                    Start();
-                    //Downloading tweets
-                    Dictionary<DateTime, List<string>> tweets = new Dictionary<DateTime, List<string>>();
-                    tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
+                        //Downloading emotion of each tweet
+                        var analyzed = await rad.GetAnswer2(tweets);
 
-                    //Downloading emotion of each tweet
-                    var analyzed = await rad.GetAnswer2(tweets);
-
-                    //Creating list in format of datagrid
-                    //List<DataToOutput> outputdatalist = new List<DataToOutput>();
-                    //foreach (var item in analyzed)
-                    //{
-                    //    outputdatalist.Add(new DataToOutput
-                    //    {
-                    //        Date = item.Key.Date.ToString("d"),
-                    //        MainEmotion = item.Value.Emotion
-                    //    });
-                    //}
-                    //DataGridTemplateColumn columnforimages = new DataGridTemplateColumn();
-                    //columnforimages.Header = "Emotion";
-                    //outputDataWindow.dataGridOutput.Columns.Add(columnforimages);
                     OutputData outputDataWindow = new OutputData(analyzed);
                     outputDataWindow.EventOutputDataClosed += ChangePlace;
-                    //Wirking with windows
                     mainWindowWidth = this.Width;
                     mainWindowHeight = this.Height;
                     this.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2
@@ -175,7 +162,12 @@ namespace MoodIdentifier.UI
                     Stop();
                     outputDataWindow.Show();
 
-                    //outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    Stop();
                 }
                 else
                 {
