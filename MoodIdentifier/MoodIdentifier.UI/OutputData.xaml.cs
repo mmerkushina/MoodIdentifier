@@ -107,12 +107,13 @@ namespace MoodIdentifier.UI
 
         private void buttonQuery_Click(object sender, RoutedEventArgs e)
         {
+            Hide1();
             backtoalldata.Visibility = Visibility.Visible;
             Hide1();
             RepositoryAnalysisData rad = new RepositoryAnalysisData();
             var a = comboBoxSearchQuery.Text;
             var result = (from get in Dataframe
-                         where rad.Сomputation(get.Value.AllEmotion, get.Value.CountTweets).Emotion == comboBoxSearchQuery.SelectedItem.ToString()
+                         where rad.Сomputation(get.Value.AllEmotion, get.Value.CountTweets).Emotion == comboBoxSearchQuery.Text
                          select get).ToList();
             List<DataToOutput> querylist = new List<DataToOutput>();
             foreach (var item in result)
@@ -130,6 +131,13 @@ namespace MoodIdentifier.UI
         private void backtoalldata_Click(object sender, RoutedEventArgs e)
         {
             Hide1();
+            imageEmotion.Visibility = Visibility.Hidden;
+            textBoxInfoMainEmotion.Visibility = Visibility.Hidden;
+            AngerTextBox.Visibility = Visibility.Hidden;
+            DisgustTextBox.Visibility = Visibility.Hidden;
+            FearTextBox.Visibility = Visibility.Hidden;
+            JoyTextBox.Visibility = Visibility.Hidden;
+            SadnessTextBox.Visibility = Visibility.Hidden;
             dataGridOutput.ItemsSource = Datalist;
             backtoalldata.Visibility = Visibility.Hidden;
             comboBoxSearchQuery.SelectedItem = firstone;
@@ -145,7 +153,6 @@ namespace MoodIdentifier.UI
         }
         private void Hide1()
         {
-            
             imageEmotion.Visibility = Visibility.Hidden;
             textBoxInfoMainEmotion.Visibility = Visibility.Hidden;
             AngerTextBox.Visibility = Visibility.Hidden;
