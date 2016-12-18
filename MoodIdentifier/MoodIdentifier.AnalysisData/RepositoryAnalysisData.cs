@@ -26,22 +26,7 @@ namespace MoodIdentifier.AnalysisData
         }
 
 
-/*
-        public async Task<Results> GetAnalysis(string text)
-        {
-           // System.Threading.Thread.Sleep(1000);
-            using (var client = new HttpClient())
-            {
-            //var client = new HttpClient();
-                var raw = await client.GetStringAsync(CheckAnalysis(text));
-                 var result = JsonConvert.DeserializeObject<Results>(raw);
-                
-                return result;
-            }
-        }
-*/
 
-        //работай прога
         public float FromStrToFloat(string str)
         {
            return( float.Parse(str.Replace('.', ',')));
@@ -88,7 +73,7 @@ namespace MoodIdentifier.AnalysisData
                 {
                     using (var client = new HttpClient())
                     {
-                        //var client = new HttpClient();
+                        
 
 
 
@@ -97,13 +82,12 @@ namespace MoodIdentifier.AnalysisData
                             var raw = await client.GetStringAsync(CheckAnalysis(TextOfTweet));
                             var result = JsonConvert.DeserializeObject<Results>(raw);
                             var c = result;
-                            // System.Threading.Thread.Sleep(200);
-                            // var b = await GetAnalysis(TextOfTweet);
+                            
 
                             docEmotions RawAnalysis = c.DocEmotions;
 
                             DataForAnalysis.Add(RawAnalysis);
-                            //а
+                            
                         }
                     }
                 }
@@ -134,8 +118,78 @@ namespace MoodIdentifier.AnalysisData
             return (Answers); //метод возвращает словарь из (ключ - дата)-(начение-эмоция+цифраэмоции) по всем датам
         }
 
-        
-         
+
+
+
+
+
+
+
+        public async Task<Dictionary<DateTime, ClassForAnalysis>> GetAnswer2 (Dictionary<DateTime, List<string>> SetOfTweets) 
+        {
+            Dictionary<DateTime, ClassForAnalysis> Answers2 = new Dictionary<DateTime, ClassForAnalysis>();
+            List<Answer> SetAnalysisDate = new List<Answer>();
+
+
+
+            foreach (KeyValuePair<DateTime, List<string>> keyValue in SetOfTweets)
+            {
+                int count = 0;
+                List<docEmotions> DataForAnalysis = new List<docEmotions>();
+                List<string> SetOnedayTweet = keyValue.Value;
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+
+
+
+
+
+                        foreach (string TextOfTweet in SetOnedayTweet)
+                        {
+                            var raw = await client.GetStringAsync(CheckAnalysis(TextOfTweet));
+                            var result = JsonConvert.DeserializeObject<Results>(raw);
+                            var c = result;
+
+
+                            docEmotions RawAnalysis = c.DocEmotions;
+
+                            DataForAnalysis.Add(RawAnalysis);
+
+                        }
+                    }
+                }
+                catch
+                {
+                    throw new Exception("Too many requests. Please, buy the full version of MyBlueMix.");
+                }
+
+                EmotionOneDay emotionaloneday = new EmotionOneDay();
+
+                foreach (docEmotions OneTweetData in DataForAnalysis)
+                {
+
+                    emotionaloneday.Anger = emotionaloneday.Anger + FromStrToFloat(OneTweetData.Anger);
+                    emotionaloneday.Disgust = emotionaloneday.Disgust + FromStrToFloat(OneTweetData.Disgust);
+                    emotionaloneday.Fear = emotionaloneday.Fear + FromStrToFloat(OneTweetData.Fear);
+                    emotionaloneday.Joy = emotionaloneday.Joy + FromStrToFloat(OneTweetData.Joy);
+                    emotionaloneday.Sadness = emotionaloneday.Sadness + FromStrToFloat(OneTweetData.Sadness);
+                    count = count + 1;
+                }
+                ClassForAnalysis b = new ClassForAnalysis
+                {
+                    CountTweets = count,
+                    AllEmotion = emotionaloneday
+                };
+                Answers2.Add(keyValue.Key, b);
+            }
+
+
+            return (Answers2); 
+        }
+
+
 
 
     }
