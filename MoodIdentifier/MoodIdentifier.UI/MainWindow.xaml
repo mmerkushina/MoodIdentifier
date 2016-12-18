@@ -44,6 +44,62 @@
         <TextBox x:Name="TextBox_Login" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" />
         <Label x:Name="Label_Login" Content="Enter Twitter login" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"/>
         <TextBox x:Name="textBoxInfo" Grid.ColumnSpan="3" Grid.Row="9" TextWrapping="Wrap" Text="This is an application for tweets analyzing made by Kuzminov,Alaeva and Merkushina"  Grid.Column="1" Visibility="Hidden"/>
-        <Button Name="ButtonInfo" Grid.Column="2" Grid.Row="10" Content="Ok" Click="ButtonInfo_Click" Visibility="Hidden" IsEnabled="False"/>
+        <Button Name="ButtonInfo" Grid.Column="2" Grid.Row="10" Content="Ok" Click="ButtonInfo_Click" Visibility="Hidden" IsEnabled="False"></Button>
+        <Canvas Grid.RowSpan="12" Grid.ColumnSpan="5">
+            <Rectangle Name="process_background"
+                       Stretch="Fill" Fill="#66FFFFFF" 
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       Width="525"
+                       Height="350" Visibility="Hidden"/>
+        </Canvas>
+        <!-- Next part of code is taken from https://www.codeproject.com/articles/49853/better-wpf-circular-progress-bar -->
+        <Canvas RenderTransformOrigin="0.5,0.5"
+                HorizontalAlignment="Center"
+             VerticalAlignment="Bottom" Width="25" Height="25"
+              Margin="0,0,0,0"  Grid.Column="2" Grid.Row="6"  >
+
+
+            <Ellipse x:Name="C0" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="1.0" Visibility="Hidden"/>
+            <Ellipse x:Name="C1" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="0.9" Visibility="Hidden"/>
+            <Ellipse x:Name="C2" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="0.8" Visibility="Hidden"/>
+            <Ellipse x:Name="C3" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="0.7" Visibility="Hidden"/>
+            <Ellipse x:Name="C4" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="0.6" Visibility="Hidden"/>
+            <Ellipse x:Name="C5" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="0.5" Visibility="Hidden"/>
+            <Ellipse x:Name="C6" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="0.4" Visibility="Hidden"/>
+            <Ellipse x:Name="C7" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="0.3" Visibility="Hidden"/>
+            <Ellipse x:Name="C8" Width="5" Height="5"
+                     Canvas.Left="0"
+                     Canvas.Top="0" Stretch="Fill"
+                     Fill="White" Opacity="0.2" Visibility="Hidden"/>
+            <Canvas.RenderTransform>
+                <RotateTransform x:Name="SpinnerRotate"
+                     Angle="0" />
+            </Canvas.RenderTransform>
+        </Canvas>
     </Grid>
 </Window>

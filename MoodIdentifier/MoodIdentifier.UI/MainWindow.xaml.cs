@@ -29,10 +29,48 @@ namespace MoodIdentifier.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        DispatcherTimer animationTimer = new DispatcherTimer();
         public double mainWindowHeight = 350;
         public double mainWindowWidth = 525;
         public double outputdataHeight = 480;
         public double outputdataWidth = 640;
+        
+        public void Start()
+        {
+            process_background.Visibility = Visibility.Visible;
+            C0.Visibility = Visibility.Visible;
+            C1.Visibility = Visibility.Visible;
+            C2.Visibility = Visibility.Visible;
+            C3.Visibility = Visibility.Visible;
+            C4.Visibility = Visibility.Visible;
+            C5.Visibility = Visibility.Visible;
+            C6.Visibility = Visibility.Visible;
+            C7.Visibility = Visibility.Visible;
+            C8.Visibility = Visibility.Visible;
+            animationTimer.Tick += HandleAnimationTick;
+            animationTimer.Start();
+        }
+
+        public void Stop()
+        {
+            animationTimer.Stop();
+            C0.Visibility = Visibility.Hidden;
+            C1.Visibility = Visibility.Hidden;
+            C2.Visibility = Visibility.Hidden;
+            C3.Visibility = Visibility.Hidden;
+            C4.Visibility = Visibility.Hidden;
+            C5.Visibility = Visibility.Hidden;
+            C6.Visibility = Visibility.Hidden;
+            C7.Visibility = Visibility.Hidden;
+            C8.Visibility = Visibility.Hidden;
+            process_background.Visibility = Visibility.Hidden;
+            animationTimer.Tick -= HandleAnimationTick;
+        }
+
+        private void HandleAnimationTick(object sender, EventArgs e)
+        {
+            SpinnerRotate.Angle = (SpinnerRotate.Angle + 36) % 360;
+        }
 
         public void ChangePlace()
         {
@@ -78,6 +116,7 @@ namespace MoodIdentifier.UI
             Console.WriteLine("HEY!");
           Console.WriteLine(  rad.GetAnswer(rtd.GetTweetsForT("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6))).Emotion+"    " + rad.GetAnswer(rtd.GetTweetsForT("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6))).NumberEmo);
             */
+            animationTimer.Interval = new System.TimeSpan(0, 0, 0, 0, 70);
             ChangePlace();
             InitializeComponent();
         }
@@ -92,20 +131,19 @@ namespace MoodIdentifier.UI
             
             if (valid.IsValid(firstdate,seconddate))
             {
-                seconddate = new DateTime(seconddate.Value.Year, seconddate.Value.Month, seconddate.Value.Day+1);
+                seconddate = seconddate.Value.AddDays(1);
                 if (valid.IsValid(login))
                 {
 
                     RepositoryTweetData rtd = new RepositoryTweetData();
                     RepositoryAnalysisData rad = new RepositoryAnalysisData();
-
+                    Start();
                     //Downloading tweets
                     Dictionary<DateTime, List<string>> tweets = new Dictionary<DateTime, List<string>>();
                     tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
 
                     //Downloading emotion of each tweet
-                    Dictionary<DateTime, Answer> analyzed = new Dictionary<DateTime, Answer>();
-                    analyzed = await rad.GetAnswer(tweets);
+                    var analyzed = await rad.GetAnswer(tweets);
 
                     //Creating list in format of datagrid
                     List<DataToOutput> outputdatalist = new List<DataToOutput>();
@@ -133,6 +171,7 @@ namespace MoodIdentifier.UI
                     outputDataWindow.Top = topOfTheScreen / 2 - outputdataHeight / 2;
                     outputDataWindow.MinHeight = 350;
                     outputDataWindow.MinWidth = 210;
+                    Stop();
                     outputDataWindow.Show();
 
                     outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
