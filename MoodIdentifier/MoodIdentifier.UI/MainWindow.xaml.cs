@@ -143,23 +143,24 @@ namespace MoodIdentifier.UI
                     tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
 
                     //Downloading emotion of each tweet
-                    var analyzed = await rad.GetAnswer(tweets);
+                    var analyzed = await rad.GetAnswer2(tweets);
 
                     //Creating list in format of datagrid
-                    List<DataToOutput> outputdatalist = new List<DataToOutput>();
-                    foreach (var item in analyzed)
-                    {
-                        outputdatalist.Add(new DataToOutput
-                        {
-                            Date = item.Key.Date.ToString("d"),
-                            MainEmotion = item.Value.Emotion
-                        });
-                    }
+                    //List<DataToOutput> outputdatalist = new List<DataToOutput>();
+                    //foreach (var item in analyzed)
+                    //{
+                    //    outputdatalist.Add(new DataToOutput
+                    //    {
+                    //        Date = item.Key.Date.ToString("d"),
+                    //        MainEmotion = item.Value.Emotion
+                    //    });
+                    //}
                     //DataGridTemplateColumn columnforimages = new DataGridTemplateColumn();
                     //columnforimages.Header = "Emotion";
                     //outputDataWindow.dataGridOutput.Columns.Add(columnforimages);
-                    OutputData outputDataWindow = new OutputData();
+                    OutputData outputDataWindow = new OutputData(analyzed);
                     outputDataWindow.EventOutputDataClosed += ChangePlace;
+                    //Wirking with windows
                     mainWindowWidth = this.Width;
                     mainWindowHeight = this.Height;
                     this.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2
@@ -174,7 +175,7 @@ namespace MoodIdentifier.UI
                     Stop();
                     outputDataWindow.Show();
 
-                    outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
+                    //outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
                 }
                 else
                 {

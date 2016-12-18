@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Research.DynamicDataDisplay;
+using MoodIdentifier.AnalysisData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MoodIdentifier.UI
 {
@@ -23,14 +26,24 @@ namespace MoodIdentifier.UI
         public event DelegateForOutputDataClosed EventOutputDataClosed;
         List<EmotionPicture> emotionPictures = new List<EmotionPicture>();
 
-        public OutputData()
+        public OutputData(Dictionary<DateTime,ClassForAnalysis> dataframe)
         {
-            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\anger.png")) });
-            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\disgust.png")) });
-            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\fear.png")) });
-            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\joy.png")) });
-            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\sadness.png")) });
+            Converter convert = new Converter();
+           
+            //Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+            //if (xlApp == null)
+            //{
+            //    MessageBox.Show("Excel is not properly installed!!");
+            //    return;
+            //}
+            //xlWorkBook = xlApp.Workbooks.Add(misValue);
+            //emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\anger.png")) });
+            //emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\disgust.png")) });
+            //emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\fear.png")) });
+            //emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\joy.png")) });
+            //emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\sadness.png")) });
             InitializeComponent();
+            dataGridOutput.ItemsSource = convert.FromDictionaryToList(dataframe);
         }
 
         private void Button_Back_To_MainWindow_Click(object sender, RoutedEventArgs e)
