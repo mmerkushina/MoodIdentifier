@@ -28,9 +28,13 @@ namespace MoodIdentifier.UI
 
         List<DataToOutput> Datalist { get; set; }
         Dictionary<DateTime, ClassForAnalysis> Dataframe { get; set; }
+        public DateTime FirstDate { get; set; }
+        public DateTime SecondDate { get; set; }
 
-        public OutputData(Dictionary<DateTime,ClassForAnalysis> dataframe)
+        public OutputData(Dictionary<DateTime,ClassForAnalysis> dataframe,DateTime firstdate, DateTime seconddate)
         {
+            FirstDate = firstdate;
+            SecondDate = seconddate;
             Converter convert = new Converter();
             Dataframe = dataframe;
             Datalist = convert.FromDictionaryToList(dataframe);
@@ -48,10 +52,13 @@ namespace MoodIdentifier.UI
 
         private void dataGridOutput_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var daterange = new CalendarDateRange(FirstDate, SecondDate);
+            //calendar.SelectedDates = daterange;
+            //calendar.BlackoutDates = new CalendarBlackoutDatesCollection(new CalendarDateRange(FirstDate, SecondDate));
             plot.Visibility = Visibility.Visible;
             textBoxInfoMainEmotion.Visibility = Visibility.Visible;
             DataToOutput selected = (DataToOutput)dataGridOutput.SelectedItem;
-            textBoxInfoMainEmotion.Text = string.Format("{0} is the main emotion of {1}.",selected.MainEmotion,selected.Date);
+            textBoxInfoMainEmotion.Text = string.Format("{0} is the main emotion of {1}.", selected.MainEmotion, selected.Date);
             switch (selected.MainEmotion)
             {
                 case "Anger":
@@ -64,51 +71,82 @@ namespace MoodIdentifier.UI
                     imageEmotion.Source = new BitmapImage(new Uri("Pictures/fear.png", UriKind.Relative));
                     break;
                 case "Joy":
-                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/joy.png",UriKind.Relative));
+                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/joy.png", UriKind.Relative));
                     break;
                 case "Sadness":
                     imageEmotion.Source = new BitmapImage(new Uri("Pictures/sadness.png", UriKind.Relative));
                     break;
             }
-
-            Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-            if (xlApp == null)
-            {
-                MessageBox.Show("Excel is not properly installed!!");
-                return;
-            }
-            Excel.Workbook workBook;
-            Excel.Worksheet worksheet;
-            object temp = System.Reflection.Missing.Value;
-            workBook = xlApp.Workbooks.Add(temp);
-            worksheet = (Excel.Worksheet)workBook.Worksheets.Item[1];
-            var result = (from analyzedKey in Dataframe.Keys
-                         where analyzedKey.ToString("d") == selected.Date
-                         select analyzedKey).ToList();
-            var analyzedone = Dataframe[result[0]];
-            for (int i = 0; i < 5; i++)
-            {
-                worksheet.Cells[1, 1] = "Anger";
-                worksheet.Cells[1, 2] = "Disgust";
-                worksheet.Cells[1, 3] = "Fear";
-                worksheet.Cells[1, 4] = "Joy";
-                worksheet.Cells[1, 5] = "Sadness";
-                worksheet.Cells[2, 1] = analyzedone.AllEmotion.Anger;
-                worksheet.Cells[2, 2] = analyzedone.AllEmotion.Disgust;
-                worksheet.Cells[2, 3] = analyzedone.AllEmotion.Fear;
-                worksheet.Cells[2, 4] = analyzedone.AllEmotion.Joy;
-                worksheet.Cells[2, 5] = analyzedone.AllEmotion.Sadness;
-
-            }
-            workBook.SaveAs("excel_for_graph.xls", Excel.XlFileFormat.xlWorkbookNormal, temp, temp, temp, temp, Excel.XlSaveAsAccessMode.xlExclusive, temp,temp,temp, temp, temp);
-            workBook.Close(true, temp, temp);
-            Marshal.ReleaseComObject(worksheet);
-            Marshal.ReleaseComObject(workBook);
-            Marshal.ReleaseComObject(xlApp);
-
-            //xlWorkBook = xlApp.Workbooks.Add(temp);
-
         }
+
+        //    Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
+        //    if (xlApp == null)
+        //    {
+        //        MessageBox.Show("Excel is not properly installed!!");
+        //        return;
+        //    }
+        //    Excel.Workbook workBook;
+        //    Excel.Worksheet worksheet;
+        //    object temp = System.Reflection.Missing.Value;
+        //    workBook = xlApp.Workbooks.Add(temp);
+        //    worksheet = (Excel.Worksheet)workBook.Worksheets.Item[1];
+        //    var result = (from analyzedKey in Dataframe.Keys
+        //                 where analyzedKey.ToString("d") == selected.Date
+        //                 select analyzedKey).ToList();
+        //    var analyzedone = Dataframe[result[0]];
+        //    for (int i = 0; i < 5; i++)
+        //    {
+        //        worksheet.Cells[1, 1] = "Anger";
+        //        worksheet.Cells[1, 2] = "Disgust";
+        //        worksheet.Cells[1, 3] = "Fear";
+        //        worksheet.Cells[1, 4] = "Joy";
+        //        worksheet.Cells[1, 5] = "Sadness";
+        //        worksheet.Cells[2, 1] = analyzedone.AllEmotion.Anger;
+        //        worksheet.Cells[2, 2] = analyzedone.AllEmotion.Disgust;
+        //        worksheet.Cells[2, 3] = analyzedone.AllEmotion.Fear;
+        //        worksheet.Cells[2, 4] = analyzedone.AllEmotion.Joy;
+        //        worksheet.Cells[2, 5] = analyzedone.AllEmotion.Sadness;
+
+        //    }
+
+        //    Excel.Range chartRange;
+
+        //    Excel.ChartObjects Charts = (Excel.ChartObjects)worksheet.ChartObjects(Type.Missing);
+        //    Excel.ChartObject myChart = (Excel.ChartObject)Charts.Add(10, 80, 300, 250);
+        //    Excel.Chart chartPage = myChart.Chart;
+
+        //    chartRange = worksheet.get_Range("A1", "E2");
+        //    chartPage.SetSourceData(chartRange, temp);
+        //    chartPage.ChartType = Excel.XlChartType.xlColumnClustered;
+        //    chartPage.Export(@"C:\excel_chart_export.bmp", "BMP", temp);
+
+        //    workBook.SaveAs("excel_for_graph.xls", Excel.XlFileFormat.xlWorkbookNormal, temp, temp, temp, temp, Excel.XlSaveAsAccessMode.xlExclusive, temp,temp,temp, temp, temp);
+        //    workBook.Close(true, temp, temp);
+        //    releaseObject(worksheet);
+        //    releaseObject(workBook);
+        //    releaseObject(xlApp);
+
+        //    //xlWorkBook = xlApp.Workbooks.Add(temp);
+
+        //}
+
+        //private void releaseObject(object obj)
+        //{
+        //    try
+        //    {
+        //        System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+        //        obj = null;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        obj = null;
+        //        MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
+        //    }
+        //    finally
+        //    {
+        //        GC.Collect();
+        //    }
+        //}
 
         private void dataGridOutput_AutoGeneratedColumns(object sender, EventArgs e)
         {

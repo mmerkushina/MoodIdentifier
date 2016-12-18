@@ -50,6 +50,9 @@
         <TextBlock Name="textBoxInfoMainEmotion" Grid.Column="9" Grid.Row="4" Grid.ColumnSpan="2" TextWrapping="Wrap"  Background="White"/>
         <Button Name="buttonQuery" Content="Search emotion:" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Click="labelQuery_Click"/>
         <TextBox Name="textBoxSearchQuery" Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="7" TextWrapping="Wrap" Background="White"/>
-        <Calendar Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" />
+        <Calendar Name ="calendar" Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" SelectionMode="MultipleRange"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib">
+            
+        </Calendar>
     </Grid>
 </Window>

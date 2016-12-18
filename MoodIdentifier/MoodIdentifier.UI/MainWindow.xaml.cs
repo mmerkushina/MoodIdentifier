@@ -146,7 +146,7 @@ namespace MoodIdentifier.UI
                         //Downloading emotion of each tweet
                         var analyzed = await rad.GetAnswer2(tweets);
 
-                    OutputData outputDataWindow = new OutputData(analyzed);
+                    OutputData outputDataWindow = new OutputData(analyzed,(DateTime)firstdate,(DateTime)seconddate);
                     outputDataWindow.EventOutputDataClosed += ChangePlace;
                     mainWindowWidth = this.Width;
                     mainWindowHeight = this.Height;

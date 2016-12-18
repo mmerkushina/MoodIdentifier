@@ -13,12 +13,10 @@ namespace MoodIdentifier.UI
         {
             List<DataToOutput> outputlist = new List<DataToOutput>();
             DataToOutput temp = new DataToOutput();
+            RepositoryAnalysisData rad = new RepositoryAnalysisData();
             foreach (var item in dictionary.Keys)
-            {
-                temp.Date = item.ToString("d");
-                RepositoryAnalysisData rad = new RepositoryAnalysisData();
-                temp.MainEmotion = rad.Сomputation(dictionary[item].AllEmotion, dictionary[item].CountTweets).Emotion;
-                outputlist.Add(temp);
+            { 
+                outputlist.Add(new DataToOutput { Date = item.ToString("d"), MainEmotion = rad.Сomputation(dictionary[item].AllEmotion, dictionary[item].CountTweets).Emotion });
             }
             return (outputlist);
         }

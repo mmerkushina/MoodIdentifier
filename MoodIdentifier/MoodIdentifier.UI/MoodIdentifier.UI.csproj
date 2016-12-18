@@ -125,6 +125,7 @@
     </ApplicationDefinition>
     <Compile Include="Converter.cs" />
     <Compile Include="DataToOutput.cs" />
+    <Compile Include="DiagrammBuilder.cs" />
     <Compile Include="EmotionPicture.cs" />
     <Compile Include="OutputData.xaml.cs">
       <DependentUpon>OutputData.xaml</DependentUpon>

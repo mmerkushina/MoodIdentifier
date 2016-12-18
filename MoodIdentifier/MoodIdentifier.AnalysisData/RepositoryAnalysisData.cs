@@ -162,8 +162,8 @@ namespace MoodIdentifier.AnalysisData
                 int count = 0;
                 List<docEmotions> DataForAnalysis = new List<docEmotions>();
                 List<string> SetOnedayTweet = keyValue.Value;
-                try
-                {
+                //try
+                //{
                     using (var client = new HttpClient())
                     {
 
@@ -184,11 +184,11 @@ namespace MoodIdentifier.AnalysisData
 
                         }
                     }
-                }
-                catch
-                {
-                    throw new Exception("Too many requests. Please, buy the full version of MyBlueMix.");
-                }
+                //}
+                //catch
+                //{
+                //    throw new Exception("Too many requests. Please, buy the full version of MyBlueMix.");
+                //}
 
                 EmotionOneDay emotionaloneday = new EmotionOneDay();
                 try
