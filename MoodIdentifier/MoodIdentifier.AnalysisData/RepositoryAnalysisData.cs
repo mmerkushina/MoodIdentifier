@@ -15,7 +15,7 @@ namespace MoodIdentifier.AnalysisData
 {
     public class RepositoryAnalysisData
     {
-        public const string AppId = "375d440c74c17eba6676796f88ef68a2abb7fb14";
+        public const string AppId = "3595b2002fc8cae28f33752ab9d76d1a8333149e";
 
 
         public string CheckAnalysis(string text)
@@ -191,16 +191,22 @@ namespace MoodIdentifier.AnalysisData
                 }
 
                 EmotionOneDay emotionaloneday = new EmotionOneDay();
-
-                foreach (docEmotions OneTweetData in DataForAnalysis)
+                try
                 {
+                    foreach (docEmotions OneTweetData in DataForAnalysis)
+                    {
 
-                    emotionaloneday.Anger = emotionaloneday.Anger + FromStrToFloat(OneTweetData.Anger);
-                    emotionaloneday.Disgust = emotionaloneday.Disgust + FromStrToFloat(OneTweetData.Disgust);
-                    emotionaloneday.Fear = emotionaloneday.Fear + FromStrToFloat(OneTweetData.Fear);
-                    emotionaloneday.Joy = emotionaloneday.Joy + FromStrToFloat(OneTweetData.Joy);
-                    emotionaloneday.Sadness = emotionaloneday.Sadness + FromStrToFloat(OneTweetData.Sadness);
-                    count = count + 1;
+                        emotionaloneday.Anger = emotionaloneday.Anger + FromStrToFloat(OneTweetData.Anger);
+                        emotionaloneday.Disgust = emotionaloneday.Disgust + FromStrToFloat(OneTweetData.Disgust);
+                        emotionaloneday.Fear = emotionaloneday.Fear + FromStrToFloat(OneTweetData.Fear);
+                        emotionaloneday.Joy = emotionaloneday.Joy + FromStrToFloat(OneTweetData.Joy);
+                        emotionaloneday.Sadness = emotionaloneday.Sadness + FromStrToFloat(OneTweetData.Sadness);
+                        count = count + 1;
+                    }
+                }
+                catch
+                {
+                    throw new Exception("Text of tweet is to short for analysis!");
                 }
                 ClassForAnalysis b = new ClassForAnalysis
                 {
