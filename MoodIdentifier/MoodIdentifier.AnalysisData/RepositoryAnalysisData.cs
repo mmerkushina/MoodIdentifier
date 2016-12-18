@@ -77,73 +77,7 @@ namespace MoodIdentifier.AnalysisData
 
 
         
-        public async  Task<Dictionary<DateTime, Answer>> GetAnswer(Dictionary<DateTime,List<string>> SetOfTweets)  
-        {
-            Dictionary<DateTime, Answer> Answers = new Dictionary<DateTime, Answer>();
-            List<Answer> SetAnalysisDate = new List<Answer>();
-            
-            
-            
-            foreach (KeyValuePair<DateTime, List<string>> keyValue in SetOfTweets)
-            {
-                int count = 0;
-                List<docEmotions> DataForAnalysis = new List<docEmotions>();
-                List<string> SetOnedayTweet = keyValue.Value;
-                try
-                {
-                    using (var client = new HttpClient())
-                    {
-                        
-
-
-
-                        foreach (string TextOfTweet in SetOnedayTweet)
-                        {
-                            var raw = await client.GetStringAsync(CheckAnalysis(TextOfTweet));
-                            var result = JsonConvert.DeserializeObject<Results>(raw);
-                            var c = result;
-                            
-
-                            docEmotions RawAnalysis = c.DocEmotions;
-
-                            DataForAnalysis.Add(RawAnalysis);
-                            
-                        }
-                    }
-                }
-                catch
-                {
-                    throw new Exception("Too many requests. Please, buy the full version of MyBlueMix.");
-                }
-
-                EmotionOneDay emotionaloneday = new EmotionOneDay();
-                try
-                {
-                    foreach (docEmotions OneTweetData in DataForAnalysis)
-                    {
-
-                        if (OneTweetData.Anger != null) { emotionaloneday.Anger += FromStrToFloat(OneTweetData.Anger); }
-                        if (OneTweetData.Disgust != null) { emotionaloneday.Disgust += FromStrToFloat(OneTweetData.Disgust); }
-                        if (OneTweetData.Fear != null) { emotionaloneday.Fear += FromStrToFloat(OneTweetData.Fear); }
-                        if (OneTweetData.Joy != null) { emotionaloneday.Joy += FromStrToFloat(OneTweetData.Joy); }
-                        if (OneTweetData.Sadness != null) { emotionaloneday.Sadness += FromStrToFloat(OneTweetData.Sadness); }
-                        count = count + 1;
-                    }
-                }
-                catch
-                {
-                    throw new Exception("Text of tweet is to short for analysis!");
-                }
-                Answer a = Сomputation(emotionaloneday, count);
-                Answers.Add(keyValue.Key,a);
-
-            }
-
-
-            return (Answers); //метод возвращает словарь из (ключ - дата)-(начение-эмоция+цифраэмоции) по всем датам
-        }
-
-
+       
 
 
 
@@ -162,8 +96,8 @@ namespace MoodIdentifier.AnalysisData
                 int count = 0;
                 List<docEmotions> DataForAnalysis = new List<docEmotions>();
                 List<string> SetOnedayTweet = keyValue.Value;
-                //try
-                //{
+                try
+                {
                     using (var client = new HttpClient())
                     {
 
@@ -184,13 +118,13 @@ namespace MoodIdentifier.AnalysisData
 
                         }
                     }
-                //}
-                //catch
-                //{
-                //    throw new Exception("Too many requests. Please, buy the full version of MyBlueMix.");
-                //}
+            }
+                catch
+            {
+                throw new Exception("Too many requests. Please, buy the full version of MyBlueMix.");
+            }
 
-                EmotionOneDay emotionaloneday = new EmotionOneDay();
+            EmotionOneDay emotionaloneday = new EmotionOneDay();
                 try
                 {
                     foreach (docEmotions OneTweetData in DataForAnalysis)

@@ -37,7 +37,7 @@ namespace MoodIdentifier.UI
         
         public void Start()
         {
-            process_background.Visibility = Visibility.Visible;
+           
             C0.Visibility = Visibility.Visible;
             C1.Visibility = Visibility.Visible;
             C2.Visibility = Visibility.Visible;
@@ -63,7 +63,7 @@ namespace MoodIdentifier.UI
             C6.Visibility = Visibility.Hidden;
             C7.Visibility = Visibility.Hidden;
             C8.Visibility = Visibility.Hidden;
-            process_background.Visibility = Visibility.Hidden;
+          
             animationTimer.Tick -= HandleAnimationTick;
         }
 
@@ -90,7 +90,7 @@ namespace MoodIdentifier.UI
         private async void Buttion_Start_analyzing_Click(object sender, RoutedEventArgs e)
         {
             //TextBox_Login.ToolTip += TextBox_Login.Text;
-            string login = TextBox_Login.Text;
+            string login = '@' + TextBox_Login.Text;
             DateTime? firstdate = DatePickerFirst.SelectedDate;
             DateTime? seconddate = DatePickerSecond.SelectedDate;
             Validation valid = new Validation();

@@ -1,5 +1,4 @@
-﻿using Microsoft.Research.DynamicDataDisplay;
-using MoodIdentifier.AnalysisData;
+﻿using MoodIdentifier.AnalysisData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MoodIdentifier.UI
 {
@@ -23,6 +21,8 @@ namespace MoodIdentifier.UI
     /// </summary>
     public partial class OutputData : Window
     {
+        //private readonly CalenderBackground background;
+       
         public delegate void DelegateForOutputDataClosed();
         public event DelegateForOutputDataClosed EventOutputDataClosed;
 
@@ -40,8 +40,10 @@ namespace MoodIdentifier.UI
             Datalist = convert.FromDictionaryToList(dataframe);
             InitializeComponent();
             dataGridOutput.ItemsSource = Datalist;
-            textBoxInfoMainEmotion.Visibility = Visibility.Hidden;
-            plot.Visibility = Visibility.Hidden;
+            calendar.SelectedDates.Clear();
+            backtoalldata.Visibility = Visibility.Hidden;
+            Hide1();
+            SetBlackoutDates();
         }
 
         private void Button_Back_To_MainWindow_Click(object sender, RoutedEventArgs e)
@@ -52,110 +54,115 @@ namespace MoodIdentifier.UI
 
         private void dataGridOutput_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var daterange = new CalendarDateRange(FirstDate, SecondDate);
-            //calendar.SelectedDates = daterange;
-            //calendar.BlackoutDates = new CalendarBlackoutDatesCollection(new CalendarDateRange(FirstDate, SecondDate));
-            plot.Visibility = Visibility.Visible;
-            textBoxInfoMainEmotion.Visibility = Visibility.Visible;
-            DataToOutput selected = (DataToOutput)dataGridOutput.SelectedItem;
-            textBoxInfoMainEmotion.Text = string.Format("{0} is the main emotion of {1}.", selected.MainEmotion, selected.Date);
-            switch (selected.MainEmotion)
+            try
             {
-                case "Anger":
-                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/anger.png", UriKind.Relative));
-                    break;
-                case "Disgust":
-                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/disgust.png", UriKind.Relative));
-                    break;
-                case "Fear":
-                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/fear.png", UriKind.Relative));
-                    break;
-                case "Joy":
-                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/joy.png", UriKind.Relative));
-                    break;
-                case "Sadness":
-                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/sadness.png", UriKind.Relative));
-                    break;
+                AngerTextBox.Background = new SolidColorBrush(Colors.White);
+                DisgustTextBox.Background = new SolidColorBrush(Colors.White);
+                FearTextBox.Background = new SolidColorBrush(Colors.White);
+                JoyTextBox.Background = new SolidColorBrush(Colors.White);
+                SadnessTextBox.Background = new SolidColorBrush(Colors.White);
+                Show1();
+                DataToOutput selected = (DataToOutput)dataGridOutput.SelectedItem;
+                textBoxInfoMainEmotion.Text = string.Format("{0} is the main emotion of {1}.", selected.MainEmotion, selected.Date);
+                switch (selected.MainEmotion)
+                {
+                    case "Anger":
+                        imageEmotion.Source = new BitmapImage(new Uri("Pictures/anger.png", UriKind.Relative));
+                        AngerTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        break;
+                    case "Disgust":
+                        imageEmotion.Source = new BitmapImage(new Uri("Pictures/disgust.png", UriKind.Relative));
+                        DisgustTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        break;
+                    case "Fear":
+                        imageEmotion.Source = new BitmapImage(new Uri("Pictures/fear.png", UriKind.Relative));
+                        FearTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        break;
+                    case "Joy":
+                        imageEmotion.Source = new BitmapImage(new Uri("Pictures/joy.png", UriKind.Relative));
+                        JoyTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        break;
+                    case "Sadness":
+                        imageEmotion.Source = new BitmapImage(new Uri("Pictures/sadness.png", UriKind.Relative));
+                        SadnessTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        break;
+                }
+                var result = (from analyzed in Dataframe
+                              where analyzed.Key.ToString("d") == selected.Date
+                              select analyzed.Value).ToList();
+                var analyzedone = result[0];
+                AngerTextBox.Text = string.Format("Anger that day was about {0}", Math.Round(analyzedone.AllEmotion.Anger, 2));
+                DisgustTextBox.Text = string.Format("Disgsut that day was about {0}", Math.Round(analyzedone.AllEmotion.Disgust, 2));
+                FearTextBox.Text = string.Format("Fear that day was about {0}", Math.Round(analyzedone.AllEmotion.Fear, 2));
+                JoyTextBox.Text = string.Format("Joy that day was about {0}", Math.Round(analyzedone.AllEmotion.Joy, 2));
+                SadnessTextBox.Text = string.Format("Sadness that day was about {0}", Math.Round(analyzedone.AllEmotion.Sadness, 2));
             }
+            catch { }
         }
-
-        //    Excel.Application xlApp = new Microsoft.Office.Interop.Excel.Application();
-        //    if (xlApp == null)
-        //    {
-        //        MessageBox.Show("Excel is not properly installed!!");
-        //        return;
-        //    }
-        //    Excel.Workbook workBook;
-        //    Excel.Worksheet worksheet;
-        //    object temp = System.Reflection.Missing.Value;
-        //    workBook = xlApp.Workbooks.Add(temp);
-        //    worksheet = (Excel.Worksheet)workBook.Worksheets.Item[1];
-        //    var result = (from analyzedKey in Dataframe.Keys
-        //                 where analyzedKey.ToString("d") == selected.Date
-        //                 select analyzedKey).ToList();
-        //    var analyzedone = Dataframe[result[0]];
-        //    for (int i = 0; i < 5; i++)
-        //    {
-        //        worksheet.Cells[1, 1] = "Anger";
-        //        worksheet.Cells[1, 2] = "Disgust";
-        //        worksheet.Cells[1, 3] = "Fear";
-        //        worksheet.Cells[1, 4] = "Joy";
-        //        worksheet.Cells[1, 5] = "Sadness";
-        //        worksheet.Cells[2, 1] = analyzedone.AllEmotion.Anger;
-        //        worksheet.Cells[2, 2] = analyzedone.AllEmotion.Disgust;
-        //        worksheet.Cells[2, 3] = analyzedone.AllEmotion.Fear;
-        //        worksheet.Cells[2, 4] = analyzedone.AllEmotion.Joy;
-        //        worksheet.Cells[2, 5] = analyzedone.AllEmotion.Sadness;
-
-        //    }
-
-        //    Excel.Range chartRange;
-
-        //    Excel.ChartObjects Charts = (Excel.ChartObjects)worksheet.ChartObjects(Type.Missing);
-        //    Excel.ChartObject myChart = (Excel.ChartObject)Charts.Add(10, 80, 300, 250);
-        //    Excel.Chart chartPage = myChart.Chart;
-
-        //    chartRange = worksheet.get_Range("A1", "E2");
-        //    chartPage.SetSourceData(chartRange, temp);
-        //    chartPage.ChartType = Excel.XlChartType.xlColumnClustered;
-        //    chartPage.Export(@"C:\excel_chart_export.bmp", "BMP", temp);
-
-        //    workBook.SaveAs("excel_for_graph.xls", Excel.XlFileFormat.xlWorkbookNormal, temp, temp, temp, temp, Excel.XlSaveAsAccessMode.xlExclusive, temp,temp,temp, temp, temp);
-        //    workBook.Close(true, temp, temp);
-        //    releaseObject(worksheet);
-        //    releaseObject(workBook);
-        //    releaseObject(xlApp);
-
-        //    //xlWorkBook = xlApp.Workbooks.Add(temp);
-
-        //}
-
-        //private void releaseObject(object obj)
-        //{
-        //    try
-        //    {
-        //        System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-        //        obj = null;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        obj = null;
-        //        MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
-        //    }
-        //    finally
-        //    {
-        //        GC.Collect();
-        //    }
-        //}
 
         private void dataGridOutput_AutoGeneratedColumns(object sender, EventArgs e)
         {
             dataGridOutput.Columns[1].Width = new DataGridLength(1, DataGridLengthUnitType.Star);
         }
 
-        private void labelQuery_Click(object sender, RoutedEventArgs e)
+        private void buttonQuery_Click(object sender, RoutedEventArgs e)
+        {
+            backtoalldata.Visibility = Visibility.Hidden;
+            Hide1();
+            RepositoryAnalysisData rad = new RepositoryAnalysisData();
+            
+            var result = (from get in Dataframe
+                         where rad.Сomputation(get.Value.AllEmotion, get.Value.CountTweets).Emotion == comboBoxSearchQuery.SelectedItem.ToString()
+                         select get).ToList();
+            List<DataToOutput> querylist = new List<DataToOutput>();
+            foreach (var item in result)
+            {
+                querylist.Add(new DataToOutput { Date = item.Key.ToString("d"), MainEmotion = rad.Сomputation(item.Value.AllEmotion,item.Value.CountTweets).Emotion});
+            }
+            dataGridOutput.ItemsSource = querylist;
+        }
+
+        private void SetBlackoutDates()
+        {
+            calendar.BlackoutDates.Add(new CalendarDateRange(FirstDate, SecondDate));
+        }
+
+        private void backtoalldata_Click(object sender, RoutedEventArgs e)
+        {
+            Hide1();
+            dataGridOutput.ItemsSource = Datalist;
+            backtoalldata.Visibility = Visibility.Hidden;
+            comboBoxSearchQuery.SelectedItem = firstone;
+        }
+
+        private void Hide2()
         {
 
+        }
+        private void Show2()
+        {
+
+        }
+        private void Hide1()
+        {
+            
+            imageEmotion.Visibility = Visibility.Hidden;
+            textBoxInfoMainEmotion.Visibility = Visibility.Hidden;
+            AngerTextBox.Visibility = Visibility.Hidden;
+            DisgustTextBox.Visibility = Visibility.Hidden;
+            FearTextBox.Visibility = Visibility.Hidden;
+            JoyTextBox.Visibility = Visibility.Hidden;
+            SadnessTextBox.Visibility = Visibility.Hidden;
+        }
+        private void Show1()
+        {
+            imageEmotion.Visibility = Visibility.Visible;
+            textBoxInfoMainEmotion.Visibility = Visibility.Visible;
+            AngerTextBox.Visibility = Visibility.Visible;
+            DisgustTextBox.Visibility = Visibility.Visible;
+            FearTextBox.Visibility = Visibility.Visible;
+            JoyTextBox.Visibility = Visibility.Visible;
+            SadnessTextBox.Visibility = Visibility.Visible;
         }
     }
 }
