@@ -130,6 +130,7 @@ namespace MoodIdentifier.UI
 
         private void backtoalldata_Click(object sender, RoutedEventArgs e)
         {
+            ///
             Hide1();
             imageEmotion.Visibility = Visibility.Hidden;
             textBoxInfoMainEmotion.Visibility = Visibility.Hidden;
