@@ -41,11 +41,31 @@ namespace MoodIdentifier.AnalysisData
             float max = Numbers.Max();
             int i = Array.IndexOf(Numbers, max);
             string NameEmotion = "";
+            switch (i)
+            {
+                case (0):
+                    NameEmotion = "Anger";
+                    break;
+                case (1):
+                    NameEmotion = "Disgust";
+                    break;
+                case (2):
+                    NameEmotion = "Fear";
+                    break;
+                case (3):
+                    NameEmotion = "Joy";
+                    break;
+                case (4):
+                    NameEmotion = "Sadness";
+                    break;
+
+            }
+            /*
             if (i == 0) { NameEmotion = "Anger"; }
             if (i == 1) { NameEmotion = "Disgust"; }
             if (i == 2) { NameEmotion = "Fear"; }
             if (i == 3) { NameEmotion = "Joy"; }
-            if (i == 4) { NameEmotion = "Sadness"; }
+            if (i == 4) { NameEmotion = "Sadness"; }*/
             Answer answer = new Answer
             {
                 Emotion = NameEmotion,
