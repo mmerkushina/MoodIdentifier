@@ -8,7 +8,7 @@ using MoodIdentifier.AnalysisData.DTO.Response;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Web;
-using MoodIdentifier.AnalysisData.DTO.Response.TweetData;
+
 using MoodIdentifier.TweetData;
 
 namespace MoodIdentifier.AnalysisData
