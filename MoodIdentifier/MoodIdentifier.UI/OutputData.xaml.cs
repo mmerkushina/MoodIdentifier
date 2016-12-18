@@ -68,23 +68,23 @@ namespace MoodIdentifier.UI
                 {
                     case "Anger":
                         imageEmotion.Source = new BitmapImage(new Uri("Pictures/anger.png", UriKind.Relative));
-                        AngerTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        AngerTextBox.Background = new SolidColorBrush(Colors.Orange);
                         break;
                     case "Disgust":
                         imageEmotion.Source = new BitmapImage(new Uri("Pictures/disgust.png", UriKind.Relative));
-                        DisgustTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        DisgustTextBox.Background = new SolidColorBrush(Colors.Orange);
                         break;
                     case "Fear":
                         imageEmotion.Source = new BitmapImage(new Uri("Pictures/fear.png", UriKind.Relative));
-                        FearTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        FearTextBox.Background = new SolidColorBrush(Colors.Orange);
                         break;
                     case "Joy":
                         imageEmotion.Source = new BitmapImage(new Uri("Pictures/joy.png", UriKind.Relative));
-                        JoyTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        JoyTextBox.Background = new SolidColorBrush(Colors.Orange);
                         break;
                     case "Sadness":
                         imageEmotion.Source = new BitmapImage(new Uri("Pictures/sadness.png", UriKind.Relative));
-                        SadnessTextBox.Background = new SolidColorBrush(Colors.LawnGreen);
+                        SadnessTextBox.Background = new SolidColorBrush(Colors.Orange);
                         break;
                 }
                 var result = (from analyzed in Dataframe
@@ -107,10 +107,10 @@ namespace MoodIdentifier.UI
 
         private void buttonQuery_Click(object sender, RoutedEventArgs e)
         {
-            backtoalldata.Visibility = Visibility.Hidden;
+            backtoalldata.Visibility = Visibility.Visible;
             Hide1();
             RepositoryAnalysisData rad = new RepositoryAnalysisData();
-            
+            var a = comboBoxSearchQuery.Text;
             var result = (from get in Dataframe
                          where rad.Сomputation(get.Value.AllEmotion, get.Value.CountTweets).Emotion == comboBoxSearchQuery.SelectedItem.ToString()
                          select get).ToList();
