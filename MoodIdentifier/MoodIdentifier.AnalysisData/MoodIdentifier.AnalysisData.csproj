@@ -49,11 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalysisResult.cs" />
     <Compile Include="Answer.cs" />
     <Compile Include="ClassForAnalysis.cs" />
     <Compile Include="DTO\Response\docEmotions.cs" />
-    <Compile Include="DTO\Response\Request.cs" />
     <Compile Include="DTO\Response\Results.cs" />
     <Compile Include="EmotionOneDay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
