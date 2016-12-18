@@ -131,30 +131,33 @@ namespace MoodIdentifier.UI
             
             if (valid.IsValid(firstdate,seconddate))
             {
-                //seconddate = seconddate.Value.AddDays(1);
+                seconddate = seconddate.Value.AddDays(1);
                 if (valid.IsValid(login))
                 {
-
-                    RepositoryTweetData rtd = new RepositoryTweetData();
-                    RepositoryAnalysisData rad = new RepositoryAnalysisData();
-                    Start();
-                    //Downloading tweets
-                    Dictionary<DateTime, List<string>> tweets = new Dictionary<DateTime, List<string>>();
-                    tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
-
-                    //Downloading emotion of each tweet
-                    var analyzed = await rad.GetAnswer(tweets);
-
-                    //Creating list in format of datagrid
                     List<DataToOutput> outputdatalist = new List<DataToOutput>();
-                    foreach (var item in analyzed)
+                    try
                     {
-                        outputdatalist.Add(new DataToOutput
+                        RepositoryTweetData rtd = new RepositoryTweetData();
+                        RepositoryAnalysisData rad = new RepositoryAnalysisData();
+                        Start();
+                        //Downloading tweets
+                        Dictionary<DateTime, List<string>> tweets = new Dictionary<DateTime, List<string>>();
+                        tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
+
+                        //Downloading emotion of each tweet
+                        var analyzed = await rad.GetAnswer(tweets);
+
+                        //Creating list in format of datagrid
+                        
+                        foreach (var item in analyzed)
                         {
-                            Date = item.Key.Date.ToString("d"),
-                            MainEmotion = item.Value.Emotion
-                        });
-                    }
+                            outputdatalist.Add(new DataToOutput
+                            {
+                                Date = item.Key.Date.ToString("d"),
+                                MainEmotion = item.Value.Emotion
+                            });
+                        }
+                    
                     //DataGridTemplateColumn columnforimages = new DataGridTemplateColumn();
                     //columnforimages.Header = "Emotion";
                     //outputDataWindow.dataGridOutput.Columns.Add(columnforimages);
@@ -175,6 +178,12 @@ namespace MoodIdentifier.UI
                     outputDataWindow.Show();
 
                     outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    Stop();
                 }
                 else
                 {

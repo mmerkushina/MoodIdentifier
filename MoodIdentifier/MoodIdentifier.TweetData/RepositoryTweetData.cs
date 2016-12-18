@@ -24,19 +24,27 @@ namespace MoodIdentifier.TweetData
         public List<TweetModel> TweetsCollection { get; set; }
         public Dictionary<DateTime,List<string>> GetTweets(string screenname, DateTime begin, DateTime end)
         {
+            Dictionary<DateTime, List<string>> result = new Dictionary<DateTime, List<string>>();
             var twitterContext = new TwitterContext(user);
-            var tweets = from tweet in twitterContext.Status
-                         where tweet.Type == StatusType.User &&
-                         tweet.ScreenName == screenname &&
-                         tweet.Lang == "en" &&
-                         tweet.CreatedAt >= begin &&
-                         tweet.CreatedAt <= end &&
-                         tweet.Count == 200 &&
-                         tweet.Entities.MediaEntities.Count==0
-                         orderby tweet.CreatedAt
-                         group tweet.Text by tweet.CreatedAt.Date;
+            try
+            {
+                var tweets = from tweet in twitterContext.Status
+                             where tweet.Type == StatusType.User &&
+                             tweet.ScreenName == screenname &&
+                             tweet.Lang == "en" &&
+                             tweet.CreatedAt >= begin &&
+                             tweet.CreatedAt <= end &&
+                             tweet.Count == 200
+                             orderby tweet.CreatedAt
+                             group tweet.Text by tweet.CreatedAt.Date;
 
-            return tweets.ToDictionary(t => t.Key, t => t.ToList());
+                result = tweets.ToDictionary(t => t.Key, t => t.ToList());
+            }
+            catch
+            {
+                throw new Exception("Check the Internet connection or API keys");
+            }
+            return result;
         }
     }
 }
