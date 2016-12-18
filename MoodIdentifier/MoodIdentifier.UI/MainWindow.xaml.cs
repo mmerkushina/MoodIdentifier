@@ -131,7 +131,7 @@ namespace MoodIdentifier.UI
             
             if (valid.IsValid(firstdate,seconddate))
             {
-                seconddate = seconddate.Value.AddDays(1);
+                //seconddate = seconddate.Value.AddDays(1);
                 if (valid.IsValid(login))
                 {
 

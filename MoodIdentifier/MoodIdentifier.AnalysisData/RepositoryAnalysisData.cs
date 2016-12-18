@@ -101,11 +101,11 @@ namespace MoodIdentifier.AnalysisData
                 foreach (docEmotions OneTweetData in DataForAnalysis) 
                 {
 
-                    emotionaloneday.Anger = emotionaloneday.Anger + FromStrToFloat(OneTweetData.Anger);
-                    emotionaloneday.Disgust = emotionaloneday.Disgust + FromStrToFloat(OneTweetData.Disgust);
-                    emotionaloneday.Fear = emotionaloneday.Fear + FromStrToFloat(OneTweetData.Fear);
-                    emotionaloneday.Joy = emotionaloneday.Joy + FromStrToFloat(OneTweetData.Joy);
-                    emotionaloneday.Sadness = emotionaloneday.Sadness + FromStrToFloat(OneTweetData.Sadness);
+                    if (OneTweetData.Anger != null) { emotionaloneday.Anger += FromStrToFloat(OneTweetData.Anger); }
+                    if (OneTweetData.Disgust != null) { emotionaloneday.Disgust += FromStrToFloat(OneTweetData.Disgust); }
+                    if (OneTweetData.Fear != null) { emotionaloneday.Fear += FromStrToFloat(OneTweetData.Fear); }
+                    if (OneTweetData.Joy != null) { emotionaloneday.Joy += FromStrToFloat(OneTweetData.Joy); }
+                    if (OneTweetData.Sadness != null) { emotionaloneday.Sadness += FromStrToFloat(OneTweetData.Sadness); }
                     count = count + 1;
                 }
 
