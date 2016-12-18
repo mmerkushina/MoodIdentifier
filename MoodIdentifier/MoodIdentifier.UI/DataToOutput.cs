@@ -11,6 +11,6 @@ namespace MoodIdentifier.UI
     public class DataToOutput
     {
         public string Date { get; set; }
-        public ImageSource EmotionImage { get; set; }
+        public string MainEmotion { get; set; }
     }
 }

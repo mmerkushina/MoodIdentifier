@@ -21,9 +21,15 @@ namespace MoodIdentifier.UI
     {
         public delegate void DelegateForOutputDataClosed();
         public event DelegateForOutputDataClosed EventOutputDataClosed;
+        List<EmotionPicture> emotionPictures = new List<EmotionPicture>();
 
         public OutputData()
         {
+            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\anger.png")) });
+            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\disgust.png")) });
+            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\fear.png")) });
+            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\joy.png")) });
+            emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\sadness.png")) });
             InitializeComponent();
         }
 
@@ -31,6 +37,31 @@ namespace MoodIdentifier.UI
         {
             EventOutputDataClosed?.Invoke();
             this.Close();
+        }
+
+        private void dataGridOutput_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataToOutput selected = (DataToOutput)dataGridOutput.SelectedItem;
+            textBoxInfoMainEmotion.Text = string.Format("{0} is the main emotion of the day.",selected.MainEmotion);
+            ImageSource source;
+            switch (selected.MainEmotion)
+            {
+                case "Anger":
+                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/anger.png", UriKind.Relative));
+                    break;
+                case "Disgust":
+                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/disgust.png", UriKind.Relative));
+                    break;
+                case "Fear":
+                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/fear.png", UriKind.Relative));
+                    break;
+                case "Joy":
+                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/joy.png",UriKind.Relative));
+                    break;
+                case "Sadness":
+                    imageEmotion.Source = new BitmapImage(new Uri("Pictures/sadness.png", UriKind.Relative));
+                    break;
+            }
         }
     }
 }

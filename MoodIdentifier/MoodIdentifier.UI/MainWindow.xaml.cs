@@ -77,78 +77,66 @@ namespace MoodIdentifier.UI
             Console.WriteLine("HEY!");
           Console.WriteLine(  rad.GetAnswer(rtd.GetTweetsForT("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6))).Emotion+"    " + rad.GetAnswer(rtd.GetTweetsForT("top10", new DateTime(2015, 10, 15), new DateTime(2015, 11, 6))).NumberEmo);
             */
-
             ChangePlace();
             InitializeComponent();
         }
 
         private async void Buttion_Start_analyzing_Click(object sender, RoutedEventArgs e)
         {
+            //TextBox_Login.ToolTip += TextBox_Login.Text;
             string login = TextBox_Login.Text;
             DateTime? firstdate = DatePickerFirst.SelectedDate;
             DateTime? seconddate = DatePickerSecond.SelectedDate;
             Validation valid = new Validation();
-            OutputData outputDataWindow = new OutputData();
-            outputDataWindow.EventOutputDataClosed += ChangePlace;
+            
             if (valid.IsValid(firstdate,seconddate))
             {
                 seconddate = new DateTime(seconddate.Value.Year, seconddate.Value.Month, seconddate.Value.Day+1);
                 if (valid.IsValid(login))
                 {
-                    mainWindowWidth = this.Width;
-                    mainWindowHeight = this.Height;
-                    this.Left = System.Windows.SystemParameters.PrimaryScreenWidth/2 
-                        - (mainWindowWidth + outputdataWidth)/2;
-                    this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - outputdataHeight / 2; 
-                    var leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
-                    var topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;         
-                    outputDataWindow.Left = leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
-                    outputDataWindow.Top = topOfTheScreen/2 - outputdataHeight / 2;
-                    outputDataWindow.MinHeight = 350;
-                    outputDataWindow.MinWidth = 210;
-                    outputDataWindow.Show();
+                   
                     RepositoryTweetData rtd = new RepositoryTweetData();
                     RepositoryAnalysisData rad = new RepositoryAnalysisData();
-                    List<EmotionPicture> emotionPictures = new List<EmotionPicture>();
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\anger.png")) });
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\disgust.png")) });
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\fear.png")) });
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\joy.png")) });
-                    emotionPictures.Add(new EmotionPicture { ImageFilePath = new Uri(System.IO.Path.GetFullPath(@"Pictures\sadness.png")) });
+                   
                     Dictionary<DateTime, List<string>> tweets = rtd.GetTweets(login, (DateTime)firstdate, (DateTime)seconddate);
-                    var analyzed = await rad.GetAnswer(tweets);
-                    List<DataToOutput> outputdatalist = new List<DataToOutput>();
-                    string emotion = "anger";
-                    foreach (var item in analyzed)
+                    try
                     {
-                        var temp = new DataToOutput();
-                        temp.Date = item.Key.Date.ToString("d");
-                        emotion = item.Value.Emotion;
-                        switch (emotion)
-                        {
-                            case "Anger":
-                                temp.EmotionImage = new BitmapImage(emotionPictures[0].ImageFilePath/*,UriKind.Absolute*/);
-                                break;
-                            case "Disgust":
-                                temp.EmotionImage = new BitmapImage(emotionPictures[1].ImageFilePath);
-                                break;
-                            case "Fear":
-                                temp.EmotionImage = new BitmapImage(emotionPictures[2].ImageFilePath);
-                                break;
-                            case "Joy":
-                                temp.EmotionImage = new BitmapImage(new Uri("Pictures/joy.png", UriKind.Relative) /*emotionPictures[3].ImageFilePath*/);
-                                break;
-                            case "Sadness":
-                                temp.EmotionImage = new BitmapImage(emotionPictures[4].ImageFilePath);
-                                break;
-                        }
-                        outputdatalist.Add(temp);
-                    }
-                    //DataGridTemplateColumn columnforimages = new DataGridTemplateColumn();
-                    //columnforimages.Header = "Emotion";
-                    //outputDataWindow.dataGridOutput.Columns.Add(columnforimages);
+                        var analyzed = await rad.GetAnswer(tweets);
 
-                    outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
+                        List<DataToOutput> outputdatalist = new List<DataToOutput>();
+                        foreach (var item in analyzed)
+                        {
+                            var temp = new DataToOutput();
+                            temp.Date = item.Key.Date.ToString("d");
+                            temp.MainEmotion = item.Value.Emotion;
+
+                         
+                            outputdatalist.Add(temp);
+                        }
+                        //DataGridTemplateColumn columnforimages = new DataGridTemplateColumn();
+                        //columnforimages.Header = "Emotion";
+                        //outputDataWindow.dataGridOutput.Columns.Add(columnforimages);
+                        OutputData outputDataWindow = new OutputData();
+                        outputDataWindow.EventOutputDataClosed += ChangePlace;
+                        mainWindowWidth = this.Width;
+                        mainWindowHeight = this.Height;
+                        this.Left = System.Windows.SystemParameters.PrimaryScreenWidth / 2
+                            - (mainWindowWidth + outputdataWidth) / 2;
+                        this.Top = System.Windows.SystemParameters.PrimaryScreenHeight / 2 - outputdataHeight / 2;
+                        var leftOfTheScreen = System.Windows.SystemParameters.PrimaryScreenWidth;
+                        var topOfTheScreen = System.Windows.SystemParameters.PrimaryScreenHeight;
+                        outputDataWindow.Left = leftOfTheScreen / 2 - (mainWindowWidth + outputdataWidth) / 2 + mainWindowWidth;
+                        outputDataWindow.Top = topOfTheScreen / 2 - outputdataHeight / 2;
+                        outputDataWindow.MinHeight = 350;
+                        outputDataWindow.MinWidth = 210;
+                        outputDataWindow.Show();
+                        outputDataWindow.dataGridOutput.ItemsSource = outputdatalist;
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Too many requests. Please, buy the full version of MyBlueMix.");
+                        ChangePlace();
+                    }
                 }
                 else
                 {

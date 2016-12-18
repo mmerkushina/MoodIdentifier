@@ -13,29 +13,28 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="30*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="6*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Name="dataGridOutput" Grid.Column="1" Grid.Row="1" >
-            <!--<DataGrid.Columns>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="Pictures/anger/png" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>-->
+        <DataGrid Name="dataGridOutput" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="2" SelectionChanged="dataGridOutput_SelectionChanged" >
         </DataGrid>
-        <Button x:Name="Button_Back_To_MainWindow" Content="Back" Grid.Column="3" Grid.Row="3" Click="Button_Back_To_MainWindow_Click"/>
+        <Button x:Name="Button_Back_To_MainWindow" Content="Back" Grid.Column="7" Grid.Row="5" Click="Button_Back_To_MainWindow_Click"/>
+        <Image x:Name="imageEmotion" Grid.Column="6" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2"/>
+        <TextBox Name="textBoxInfoMainEmotion" Grid.Column="4" Grid.Row="1" Background="White"/>
     </Grid>
 </Window>
